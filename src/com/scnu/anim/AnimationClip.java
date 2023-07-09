@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 动画帧序列组
+ * @author LSR
+ */
 public class AnimationClip {
     public List<String> frameNames = new ArrayList<>();
     private long lastTime = 0;
