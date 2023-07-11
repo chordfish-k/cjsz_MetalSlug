@@ -13,7 +13,6 @@ import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
 import com.scnu.manager.GameLoad;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Map;
 
@@ -31,13 +30,22 @@ public class Hero extends ElementObj {
     private boolean isMoving = false;
     private boolean isSquatting = false;
     private boolean isAttacking = false;
+    private boolean isJumping = false;
 
     private int bulletType = 0;
     private long lastAttackTime = 0;
 
+    private float gravity = 50f;
+    private int floorY = 0;
+    private float jumpSpeed = 130f;
+    private float remainAbility = 15f;
+    private long lastJumpCalcTime = 0;
+
 
     private Vector2 vel = new Vector2();
+
     private Direction facing = Direction.RIGHT;
+
     private Vector2[] dirOffset = {
             new Vector2(-20,-5), // 下半朝右站
             new Vector2(-30,-45), // 上半朝右站
@@ -90,6 +98,7 @@ public class Hero extends ElementObj {
         int x = Integer.parseInt(sp[0]);
         int y = Integer.parseInt(sp[1]);
         this.transform.setPos(new Vector2(x, y));
+        this.floorY = y;
         return this;
     }
 
@@ -122,7 +131,9 @@ public class Hero extends ElementObj {
         super.onUpdate(time);
         dt = (int)(time - localTime);
 
+        jump(time);
         move(time);
+
         attack(time);
         adjustChildPos();
         changeSprite(time);
@@ -137,6 +148,11 @@ public class Hero extends ElementObj {
             int timeSpan = aniMap.get("attack" + bulletType + dir).getTotalTime();
             if (time > lastAttackTime + timeSpan) {
                 lastAttackTime = time;
+
+//                // 正在跳跃，不攻击
+//                if (isJumping)
+//                    return;
+
                 int x = (int)transform.getX();
                 int y = (int)transform.getY();
                 int i = dir;
@@ -152,10 +168,38 @@ public class Hero extends ElementObj {
         }
     }
 
+    private void jump(long time) {
+        if (!isJumping && keyOn[KeyEvent.VK_K]) {
+            isJumping = true;
+            vel.y = -jumpSpeed;
+
+            int dir = facing == Direction.RIGHT ? 1 : 0;
+            // 重置动画
+            aniMap.get("jump_leg"+dir).reset();
+            aniMap.get("jump_body"+bulletType+dir).reset();
+        }
+        if (isJumping) {
+            int accelY = (int)(gravity * dt * 0.1f);
+            if (vel.y < 0) {
+                if (keyOn[KeyEvent.VK_K]) {
+                    // 长按跳跃键滞空能力提升
+                    vel.y -= remainAbility * dt * 0.1;
+                }
+            }
+            vel.y += accelY;
+
+            if (transform.getY() > floorY) {
+                isJumping = false;
+                this.transform.setY(floorY);
+                vel.y = 0;
+            }
+        }
+    }
+
     private void adjustChildPos() {
         if (facing == Direction.RIGHT) {
             if(!isSquatting) {
-                if (isMoving) {
+                if (isMoving && !isJumping) {
                     heroDown.transform.setPos(dirOffset[8]);
                     heroUp.transform.setPos(dirOffset[9]);
                 }
@@ -213,20 +257,26 @@ public class Hero extends ElementObj {
 
         String squat = isSquatting ? "squat_" : "";
 
-        if (!isMoving) {
-            heroDown.sp.setSprite(imgMap.get(squat + "stand"+dir));
+        if (isJumping) {
+            heroDown.sp.setSprite(aniMap.get("jump_leg"+dir).nextFrame(time));
+            heroUp.sp.setSprite(aniMap.get("jump_body"+bulletType+dir).nextFrame(time));
+
         }
         else {
+            if (!isMoving) {
+                heroDown.sp.setSprite(imgMap.get(squat + "stand"+dir));
+            }
+            else {
 
-            heroDown.sp.setSprite(aniMap.get(squat + "run"+dir).nextFrame(time));
+                heroDown.sp.setSprite(aniMap.get(squat + "run"+dir).nextFrame(time));
+            }
+            if(!isAttacking)
+                heroUp.sp.setSprite(imgMap.get("attack" + bulletType + "0" + dir));
         }
-
         if (isAttacking) {
             heroUp.sp.setSprite(aniMap.get("attack" + bulletType + dir).nextFrame(time));
         }
-        else {
-            heroUp.sp.setSprite(imgMap.get("attack" + bulletType + "0" + dir));
-        }
+
     }
 
     public Direction getFacing() {

@@ -161,6 +161,7 @@ public class BoxCollider extends ComponentBase{
         g.setColor(Color.RED);
         Graphics2D g2d = (Graphics2D)g;
         g2d.draw(getShape().getShape());
+
     }
 
     public boolean checkCollisionWith(BoxCollider colB) {

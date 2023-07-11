@@ -21,6 +21,11 @@ public class AnimationClip {
     }
 
     public SpriteImg nextFrame(long currentTime) {
+        // 如果超一定时间，则复原
+        if (currentTime > lastTime + getTotalTime()) {
+            reset();
+        }
+
         if (currentTime > lastTime + frameSpan) {
             lastTime = currentTime;
 
