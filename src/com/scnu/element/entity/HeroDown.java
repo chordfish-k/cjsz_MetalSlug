@@ -33,14 +33,10 @@ public class HeroDown extends ElementObj{
     public void onDraw(Graphics g) {
         super.onDraw(g);
         Vector2 pos = calcAbsolutePos();
-//        if (getParent() != null) {
-//            // 子元素的坐标以父元素的坐标为原点
-//            pos = pos.add(getParent().transform.getPos());
-//        }
         g.drawImage(
                 sp.getSprite().getImage(),
-                (int)pos.x,
-                (int)pos.y,
+                (int)(pos.x - sp.getWidth() * sp.getCenter().x),
+                (int)(pos.y - sp.getWidth() * sp.getCenter().y),
                 sp.getWidth(), sp.getHeight(), null);
     }
 }

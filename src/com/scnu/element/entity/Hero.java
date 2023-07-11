@@ -1,13 +1,16 @@
 package com.scnu.element.entity;
 
 import com.scnu.anim.AnimationClip;
+import com.scnu.anim.SpriteImg;
 import com.scnu.controller.Direction;
 import com.scnu.element.ElementObj;
 import com.scnu.element.RootObj;
+import com.scnu.element.bullet.Bullet;
 import com.scnu.element.component.BoxCollider;
 import com.scnu.element.component.RigidBody;
 import com.scnu.geometry.Vector2;
 import com.scnu.manager.ElementManager;
+import com.scnu.manager.ElementType;
 import com.scnu.manager.GameLoad;
 
 import javax.swing.*;
@@ -15,7 +18,7 @@ import java.awt.event.KeyEvent;
 import java.util.Map;
 
 public class Hero extends ElementObj {
-    private Map<String, ImageIcon> imgMap = null;
+    private Map<String, SpriteImg> imgMap = null;
     private Map<String, AnimationClip> aniMap = null;
 
     private RootObj root = null;
@@ -24,12 +27,13 @@ public class Hero extends ElementObj {
     private long localTime = 0;
     private int dt = 0;
 
-//    private int spriteChangeSpan = 4;
-//    private long lastSpriteChangeTime = 0;
-
     private float speed = 50;
     private boolean isMoving = false;
     private boolean isSquatting = false;
+    private boolean isAttacking = false;
+
+    private int bulletType = 0;
+    private long lastAttackTime = 0;
 
 
     private Vector2 vel = new Vector2();
@@ -38,17 +42,23 @@ public class Hero extends ElementObj {
             new Vector2(-20,-5), // 下半朝右站
             new Vector2(-30,-45), // 上半朝右站
             new Vector2(-20,-5), // 下半朝左站
-            new Vector2(-65, -45), // 上半朝左站
+            new Vector2(25, -45), // 上半朝左站
 
             new Vector2(-20,0), // 下半朝右蹲
             new Vector2(-30,-30), // 上半朝右蹲
             new Vector2(-20,0), // 下半朝左蹲
-            new Vector2(-55,-30), // 上半朝左蹲
+            new Vector2(25,-30), // 上半朝左蹲
 
             new Vector2(-30,-5), // 下半朝右跑
             new Vector2(-30,-45), // 上半朝右跑
             new Vector2(-20,-5), // 下半朝左跑
-            new Vector2(-55, -45), // 上半朝左跑
+            new Vector2(20, -45), // 上半朝左跑
+    };
+    private Vector2[] bulletOffset = {
+            new Vector2(-40, -25), //朝左站立
+            new Vector2(40, -25), //朝右站立
+            new Vector2(-40, -10), //朝左下蹲
+            new Vector2(40, -10), //朝右下蹲
     };
 
     HeroUp heroUp = null;
@@ -113,10 +123,33 @@ public class Hero extends ElementObj {
         dt = (int)(time - localTime);
 
         move(time);
+        attack(time);
         adjustChildPos();
         changeSprite(time);
 
         localTime = time;
+    }
+
+    private void attack(long time) {
+        isAttacking = keyOn[KeyEvent.VK_J];
+        if (isAttacking) {
+            int dir = facing == Direction.RIGHT ? 1 : 0;
+            int timeSpan = aniMap.get("attack" + bulletType + dir).getTotalTime();
+            if (time > lastAttackTime + timeSpan) {
+                lastAttackTime = time;
+                int x = (int)transform.getX();
+                int y = (int)transform.getY();
+                int i = dir;
+                if (isSquatting)
+                    i += 2;
+                Vector2 offset = bulletOffset[i];
+                x += offset.x;
+                y += offset.y;
+
+                Bullet b =(Bullet) new Bullet().create("x:" + x + ",y:" + y + ",f:" + facing.name()+",by:player");
+                ElementManager.getManager().addElement(b, ElementType.BULLET);
+            }
+        }
     }
 
     private void adjustChildPos() {
@@ -186,6 +219,13 @@ public class Hero extends ElementObj {
         else {
 
             heroDown.sp.setSprite(aniMap.get(squat + "run"+dir).nextFrame(time));
+        }
+
+        if (isAttacking) {
+            heroUp.sp.setSprite(aniMap.get("attack" + bulletType + dir).nextFrame(time));
+        }
+        else {
+            heroUp.sp.setSprite(imgMap.get("attack" + bulletType + "0" + dir));
         }
     }
 

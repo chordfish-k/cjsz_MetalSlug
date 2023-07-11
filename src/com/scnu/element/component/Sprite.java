@@ -1,28 +1,29 @@
 package com.scnu.element.component;
 
+import com.scnu.anim.SpriteImg;
 import com.scnu.geometry.Vector2;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Sprite extends ComponentBase{
-    private ImageIcon sprite = null;
-    private Vector2 center = new Vector2(); // 默认(0, 0)
+    private SpriteImg sprite = null;
 
     public ImageIcon getSprite() {
-        return sprite;
+        return sprite.getSprite();
     }
 
-    public Sprite setSprite(ImageIcon sprite) {
+    public Sprite setSprite(SpriteImg sprite) {
         this.sprite = sprite;
         return this;
     }
 
     public int getWidth() {
-        return this.sprite.getIconWidth();
+        return this.sprite.getSprite().getIconWidth();
     }
 
     public int getHeight() {
-        return this.sprite.getIconHeight();
+        return this.sprite.getSprite().getIconHeight();
     }
 
     /**
@@ -31,12 +32,26 @@ public class Sprite extends ComponentBase{
      *               以及左上角到图片中心与左上角右上角的长度比值
      */
     public Sprite setCenter(Vector2 center) {
-        this.center = center;
+        this.sprite.setCenter(center);
         return this;
     }
 
     public Vector2 getCenter() {
-        return center;
+        return this.sprite.getCenter();
     }
 
+    public Vector2 getOffset() {
+        return new Vector2(
+                getWidth() * getCenter().x,
+                getWidth() * getCenter().y
+        );
+    }
+
+    @Override
+    public void onDraw(Graphics g) {
+        //super.onDraw(g);
+        g.setColor(Color.RED);
+        Vector2 v = parent.calcAbsolutePos().add(getCenter());
+        g.drawOval((int)v.x-1, (int)v.y-1, 2, 2);
+    }
 }

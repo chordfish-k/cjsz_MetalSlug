@@ -44,8 +44,8 @@ public class HeroUp extends ElementObj {
 //        }
         g.drawImage(
                 sp.getSprite().getImage(),
-                (int)pos.x,
-                (int)pos.y,
+                (int)(pos.x - sp.getOffset().x),
+                (int)(pos.y - sp.getOffset().y),
                 sp.getWidth(), sp.getHeight(), null);
     }
 }

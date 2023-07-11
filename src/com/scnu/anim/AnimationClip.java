@@ -20,7 +20,7 @@ public class AnimationClip {
         return frameNames.size();
     }
 
-    public ImageIcon nextFrame(long currentTime) {
+    public SpriteImg nextFrame(long currentTime) {
         if (currentTime > lastTime + frameSpan) {
             lastTime = currentTime;
 
@@ -35,5 +35,13 @@ public class AnimationClip {
 
     public void reset() {
         index = 0;
+    }
+
+    public void setFrameSpan(int frameSpan) {
+        this.frameSpan = frameSpan;
+    }
+
+    public int getTotalTime() {
+        return frameSpan * frameNames.size();
     }
 }

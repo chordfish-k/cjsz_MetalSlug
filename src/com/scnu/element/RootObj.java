@@ -7,6 +7,8 @@ import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
 import com.scnu.show.GameJFrame;
 
+import java.awt.*;
+
 /**
  * 元素的根节点，单例
  */
@@ -55,4 +57,8 @@ public class RootObj extends ElementObj{
             lastHeroX = heroX;
         }
     }
+
+//    public Rectangle getCameraRange() {
+//        return new Rectangle();
+//    }
 }

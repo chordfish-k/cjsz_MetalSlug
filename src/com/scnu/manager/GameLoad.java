@@ -1,10 +1,10 @@
 package com.scnu.manager;
 
 import com.scnu.anim.AnimationClip;
+import com.scnu.anim.SpriteImg;
 import com.scnu.element.ElementObj;
 import com.scnu.element.RootObj;
 import com.scnu.element.map.BarrierObj;
-import com.scnu.element.map.MapObj;
 import com.scnu.geometry.Vector2;
 import com.scnu.show.GameJFrame;
 
@@ -24,7 +24,7 @@ public class GameLoad {
     // 资源管理器
     private static final ElementManager em = ElementManager.getManager();
     // 图片集合
-    public static Map<String, ImageIcon> imgMap = new HashMap<>();
+    public static Map<String, SpriteImg> imgMap = new HashMap<>();
     // 动画集合
     public static Map<String, AnimationClip >aniMap = new HashMap<>();
     // 元素集合
@@ -50,36 +50,36 @@ public class GameLoad {
      * @param mapId 地图文件id
      */
     public static void LoadMap(int mapId) {
-        String mapName = "com/scnu/text/" + mapId + ".map";
-        // 用io流获取文件对象，加载包内文件
-        ClassLoader classLoader = GameLoad.class.getClassLoader(); // 类加载器
-        InputStream maps = classLoader.getResourceAsStream(mapName);
-        if (maps == null) {
-            System.out.println("配置文件读取异常，清重新安装");
-            return;
-        }
-        try {
-            pro.load(maps);
-            Enumeration<?> names = pro.propertyNames();
-            while (names.hasMoreElements()) {
-                String key = names.nextElement().toString();
-                String[] arrs = pro.getProperty(key).split(";");
-                if (key.equals("BOT")) {
-//                    for (String arr : arrs) {
-//                        ElementObj enemy = createElementByName("enemy", arr + "," + "up");
-//                        em.addElement(enemy, ElementType.ENEMY);
-//                    }
-                    continue;
-                }
-                for (String arr : arrs) {
-                    ElementObj element = new MapObj().create(key + "," + arr);
-                    em.addElement(element, ElementType.MAP);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        pro.clear();
+//        String mapName = "com/scnu/text/" + mapId + ".map";
+//        // 用io流获取文件对象，加载包内文件
+//        ClassLoader classLoader = GameLoad.class.getClassLoader(); // 类加载器
+//        InputStream maps = classLoader.getResourceAsStream(mapName);
+//        if (maps == null) {
+//            System.out.println("配置文件读取异常，清重新安装");
+//            return;
+//        }
+//        try {
+//            pro.load(maps);
+//            Enumeration<?> names = pro.propertyNames();
+//            while (names.hasMoreElements()) {
+//                String key = names.nextElement().toString();
+//                String[] arrs = pro.getProperty(key).split(";");
+//                if (key.equals("BOT")) {
+////                    for (String arr : arrs) {
+////                        ElementObj enemy = createElementByName("enemy", arr + "," + "up");
+////                        em.addElement(enemy, ElementType.ENEMY);
+////                    }
+//                    continue;
+//                }
+//                for (String arr : arrs) {
+//                    ElementObj element = new MapObj().create(key + "," + arr);
+//                    em.addElement(element, ElementType.MAP);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        pro.clear();
 
         //创建地图边界
         int barrierWidth = 10;
@@ -117,9 +117,23 @@ public class GameLoad {
             pro.load(ist);
             Set<Object> set = pro.keySet();
             for (Object o : set) {
-                String path = pro.getProperty(o.toString());
+
+                String path = "";
+                Vector2 center = new Vector2();
+
+                String[] split = pro.getProperty(o.toString()).split("[|]");
+                path = split[0];
+
+                if (split.length > 1) {
+                    String[] s = split[1].split(",");
+                    center.x = Integer.parseInt(s[0]);
+                    center.y = Integer.parseInt(s[1]);
+                }
+
                 // 存入map中
-                imgMap.put(o.toString(), new ImageIcon(path));
+                ImageIcon ic = new ImageIcon(path);
+
+                imgMap.put(o.toString(), new SpriteImg(ic, center));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -145,7 +159,10 @@ public class GameLoad {
             Set<Object> set = pro.keySet();
             for (Object o : set) {
                 AnimationClip ac = new AnimationClip();
-                ac.frameNames.addAll(Arrays.asList(pro.getProperty(o.toString()).split(";")));
+                String[] sp = pro.getProperty(o.toString()).split("[|]");
+                ac.frameNames.addAll(Arrays.asList(sp[0].split(";")));
+                if (sp.length > 1)
+                    ac.setFrameSpan(Integer.parseInt(sp[1]));
                 // 存入map中
                 aniMap.put(o.toString(), ac);
             }

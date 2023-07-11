@@ -8,6 +8,7 @@ import com.scnu.manager.UIManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Map;
 
@@ -58,27 +59,33 @@ public class GameMainJPanel extends JPanel implements Runnable{
 
         Map<ElementType, List<ElementObj>> all = em.getGameElements();
 
-        for(ElementType type: ElementType.values()) { // values()按枚举定义顺序返回枚举数组
-            if (type == ElementType.DIE){
-                continue;
-            }
+        try {
+            for(ElementType type: ElementType.values()) { // values()按枚举定义顺序返回枚举数组
+                if (type == ElementType.DIE){
+                    continue;
+                }
 
-            List<ElementObj> list = all.get(type);
-            for (ElementObj obj : list) {
-                // 先调用该元素的onDraw
-                obj.onDraw(g);
-                // 调用该元素下所有组件的onDraw
+                List<ElementObj> list = all.get(type);
+                for (ElementObj obj : list) {
+                    // 先调用该元素的onDraw
+                    obj.onDraw(g);
+                    // 调用该元素下所有组件的onDraw
 //                for (ComponentBase cp : obj.getComponents().values()) {
 //                    cp.onDraw(g);
 //                }
-            }
-            for (ElementObj obj : list) {
-                // 调用该元素下所有组件的onDraw
-                for (ComponentBase cp : obj.getComponents().values()) {
-                    cp.onDraw(g);
+                }
+                for (ElementObj obj : list) {
+                    // 调用该元素下所有组件的onDraw
+                    for (ComponentBase cp : obj.getComponents().values()) {
+                        cp.onDraw(g);
+                    }
                 }
             }
+        } catch (ConcurrentModificationException e) {
+//            e.printStackTrace();
         }
+
+
 
 
     }

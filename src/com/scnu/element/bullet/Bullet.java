@@ -6,6 +6,9 @@ import com.scnu.element.ElementObj;
 import com.scnu.element.component.BoxCollider;
 import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
+import com.scnu.element.component.Sprite;
+import com.scnu.manager.ElementManager;
+import com.scnu.manager.GameLoad;
 import com.scnu.show.GameJFrame;
 import com.scnu.geometry.Vector2;
 
@@ -24,13 +27,15 @@ public class Bullet extends ElementObj {
 
     BoxCollider col = null;
     RigidBody rb = null;
+    Sprite sp = null;
 
     public Bullet() {
         col = (BoxCollider) addComponent(
                 "BoxCollider",
-                "shape:Rectangle,w:"+2 * radius +",h:"+2 * radius);
+                "shape:Rectangle,offX:10,w:"+2 * radius +",h:"+2 * radius);
         col.setTrigger(true);
         rb = (RigidBody) addComponent("RigidBody");
+        sp = (Sprite) addComponent("Sprite");
     }
 
     @Override
@@ -66,6 +71,10 @@ public class Bullet extends ElementObj {
         this.damage = 1;
         this.radius = 5;
 
+        int dir = this.facing == Direction.LEFT ? 0 : 1;
+        sp.setSprite(GameLoad.imgMap.get("bullet0"+dir));
+
+        ElementManager.eleRoot.addChild(this);
         return this;
     }
 
@@ -85,15 +94,13 @@ public class Bullet extends ElementObj {
 
     @Override
     public void onDraw(Graphics g) {
-        if (transform == null)
-            return;
-
-        g.setColor(Color.red);
-
-        int x = Math.round(transform.getX()) - radius;
-        int y = Math.round(transform.getY()) - radius;
-
-        g.fillOval(x, y, 2 * radius, 2 * radius);
+        super.onDraw(g);
+        Vector2 pos = calcAbsolutePos();
+        g.drawImage(
+                sp.getSprite().getImage(),
+                (int)(pos.x - sp.getWidth() * sp.getCenter().x),
+                (int)(pos.y - sp.getWidth() * sp.getCenter().y),
+                sp.getWidth(), sp.getHeight(), null);
     }
 
     @Override
@@ -105,10 +112,11 @@ public class Bullet extends ElementObj {
 
 
     private void checkDead() {
-        if (transform == null || this.getElementState() != ElementState.DIED)
+        if (this.getElementState() == ElementState.DIED)
             return;
-        float x = transform.getX();
-        float y = transform.getY();
+        Vector2 pos = calcAbsolutePos();
+        float x = pos.x;
+        float y = pos.y;
         if (x < 0 || y < 0 || x > GameJFrame.SIZE_W || y > GameJFrame.SIZE_H) {
             destroy();
         }
