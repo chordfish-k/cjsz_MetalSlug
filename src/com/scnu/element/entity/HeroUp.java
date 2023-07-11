@@ -37,15 +37,6 @@ public class HeroUp extends ElementObj {
     @Override
     public void onDraw(Graphics g) {
         super.onDraw(g);
-        Vector2 pos = calcAbsolutePos();
-//        if (getParent() != null) {
-//            // 子元素的坐标以父元素的坐标为原点
-//            pos = pos.add(getParent().transform.getPos());
-//        }
-        g.drawImage(
-                sp.getSprite().getImage(),
-                (int)(pos.x - sp.getOffset().x),
-                (int)(pos.y - sp.getOffset().y),
-                sp.getWidth(), sp.getHeight(), null);
+        sp.draw(g);
     }
 }

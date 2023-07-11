@@ -49,4 +49,8 @@ public class AnimationClip {
     public int getTotalTime() {
         return frameSpan * frameNames.size();
     }
+
+    public int getIndex() {
+        return index;
+    }
 }

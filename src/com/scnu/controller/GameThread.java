@@ -73,9 +73,9 @@ public class GameThread extends Thread {
         GameLoad.loadElement();
         GameLoad.loadRoot();
         GameLoad.loadBackground();
-        //GameLoad.LoadMap(this.levelNum);
-
+        GameLoad.LoadMap(this.levelNum);
         GameLoad.loadPlayer();
+
         GameLoad.loadCollision();
 
         callOnLoad();

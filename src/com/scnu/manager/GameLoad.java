@@ -50,36 +50,38 @@ public class GameLoad {
      * @param mapId 地图文件id
      */
     public static void LoadMap(int mapId) {
-//        String mapName = "com/scnu/text/" + mapId + ".map";
-//        // 用io流获取文件对象，加载包内文件
-//        ClassLoader classLoader = GameLoad.class.getClassLoader(); // 类加载器
-//        InputStream maps = classLoader.getResourceAsStream(mapName);
-//        if (maps == null) {
-//            System.out.println("配置文件读取异常，清重新安装");
-//            return;
-//        }
-//        try {
-//            pro.load(maps);
-//            Enumeration<?> names = pro.propertyNames();
-//            while (names.hasMoreElements()) {
-//                String key = names.nextElement().toString();
-//                String[] arrs = pro.getProperty(key).split(";");
-//                if (key.equals("BOT")) {
-////                    for (String arr : arrs) {
-////                        ElementObj enemy = createElementByName("enemy", arr + "," + "up");
-////                        em.addElement(enemy, ElementType.ENEMY);
-////                    }
-//                    continue;
-//                }
+        String mapName = "com/scnu/text/" + mapId + ".map";
+        // 用io流获取文件对象，加载包内文件
+        ClassLoader classLoader = GameLoad.class.getClassLoader(); // 类加载器
+        InputStream maps = classLoader.getResourceAsStream(mapName);
+        if (maps == null) {
+            System.out.println("配置文件读取异常，清重新安装");
+            return;
+        }
+        try {
+            pro.load(maps);
+            Enumeration<?> names = pro.propertyNames();
+            while (names.hasMoreElements()) {
+                String key = names.nextElement().toString();
+                String[] arrs = pro.getProperty(key).split(";");
+                if (key.equals("ENEMY")) {
+                    // 后续改为动态加载+对象池
+                    for (String arr : arrs) {
+                        ElementObj enemy = createElementByName("enemy", arr + "," + "left");
+                        em.addElement(enemy, ElementType.ENEMY);
+                        ElementManager.eleRoot.addChild(enemy);
+                    }
+                    continue;
+                }
 //                for (String arr : arrs) {
 //                    ElementObj element = new MapObj().create(key + "," + arr);
 //                    em.addElement(element, ElementType.MAP);
 //                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        pro.clear();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        pro.clear();
 
         //创建地图边界
         int barrierWidth = 10;

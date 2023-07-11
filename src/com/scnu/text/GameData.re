@@ -164,15 +164,15 @@ enemy_attackL240=images/enemy/L/enemy_attack240.png
 enemy_attackL241=images/enemy/L/enemy_attack241.png
 
 
-enemy_dieL000=images/enemy/L/enemy_die000.png
+enemy_dieL000=images/enemy/L/enemy_die000.png|1,1
 enemy_dieL001=images/enemy/L/enemy_die001.png
-enemy_dieL010=images/enemy/L/enemy_die010.png
+enemy_dieL010=images/enemy/L/enemy_die010.png|1,1
 enemy_dieL011=images/enemy/L/enemy_die011.png
-enemy_dieL020=images/enemy/L/enemy_die020.png
+enemy_dieL020=images/enemy/L/enemy_die020.png|1,1
 enemy_dieL021=images/enemy/L/enemy_die021.png
-enemy_dieL030=images/enemy/L/enemy_die030.png
+enemy_dieL030=images/enemy/L/enemy_die030.png|1,1
 enemy_dieL031=images/enemy/L/enemy_die031.png
-enemy_dieL040=images/enemy/L/enemy_die040.png
+enemy_dieL040=images/enemy/L/enemy_die040.png|1,1
 enemy_dieL041=images/enemy/L/enemy_die041.png
 
 enemy_dieL100=images/enemy/L/enemy_die100.png
@@ -197,15 +197,15 @@ enemy_dieL231=images/enemy/L/enemy_die231.png
 enemy_dieL240=images/enemy/L/enemy_die240.png
 enemy_dieL241=images/enemy/L/enemy_die241.png
 
-enemy_runL000=images/enemy/L/enemy_run000.png
+enemy_runL000=images/enemy/L/enemy_run000.png|1,1
 enemy_runL001=images/enemy/L/enemy_run001.png
-enemy_runL010=images/enemy/L/enemy_run010.png
+enemy_runL010=images/enemy/L/enemy_run010.png|1,1
 enemy_runL011=images/enemy/L/enemy_run011.png
-enemy_runL020=images/enemy/L/enemy_run020.png
+enemy_runL020=images/enemy/L/enemy_run020.png|1,1
 enemy_runL021=images/enemy/L/enemy_run021.png
-enemy_runL030=images/enemy/L/enemy_run030.png
+enemy_runL030=images/enemy/L/enemy_run030.png|1,1
 enemy_runL031=images/enemy/L/enemy_run031.png
-enemy_runL040=images/enemy/L/enemy_run040.png
+enemy_runL040=images/enemy/L/enemy_run040.png|1,1
 enemy_runL041=images/enemy/L/enemy_run041.png
 
 enemy_runL100=images/enemy/L/enemy_run100.png
@@ -230,19 +230,19 @@ enemy_runL231=images/enemy/L/enemy_run231.png
 enemy_runL240=images/enemy/L/enemy_run240.png
 enemy_runL241=images/enemy/L/enemy_run241.png
 
-enemy_standL000=images/enemy/L/enemy_stand000.png
+enemy_standL000=images/enemy/L/enemy_stand000.png|1,1
 enemy_standL001=images/enemy/L/enemy_stand001.png
-enemy_standL010=images/enemy/L/enemy_stand010.png
+enemy_standL010=images/enemy/L/enemy_stand010.png|1,1
 enemy_standL011=images/enemy/L/enemy_stand011.png
 
-enemy_standL100=images/enemy/L/enemy_stand100.png
+enemy_standL100=images/enemy/L/enemy_stand100.png|1,1
 enemy_standL101=images/enemy/L/enemy_stand101.png
-enemy_standL110=images/enemy/L/enemy_stand110.png
+enemy_standL110=images/enemy/L/enemy_stand110.png|1,1
 enemy_standL111=images/enemy/L/enemy_stand111.png
 
-enemy_standL200=images/enemy/L/enemy_stand200.png
+enemy_standL200=images/enemy/L/enemy_stand200.png|1,1
 enemy_standL201=images/enemy/L/enemy_stand201.png
-enemy_standL210=images/enemy/L/enemy_stand210.png
+enemy_standL210=images/enemy/L/enemy_stand210.png|1,1
 enemy_standL211=images/enemy/L/enemy_stand211.png
 
 enemy_attackR000=images/enemy/R/enemy_attack000.png

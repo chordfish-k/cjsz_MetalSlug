@@ -17,6 +17,13 @@ import java.awt.event.KeyEvent;
 import java.util.Map;
 
 public class Hero extends ElementObj {
+    // 按键
+    private final int K_LEFT = KeyEvent.VK_A;
+    private final int K_RIGHT = KeyEvent.VK_D;
+    private final int K_JUMP = KeyEvent.VK_K;
+    private final int K_ATK = KeyEvent.VK_J;
+    private final int K_SQUAT = KeyEvent.VK_CONTROL;
+
     private Map<String, SpriteImg> imgMap = null;
     private Map<String, AnimationClip> aniMap = null;
 
@@ -83,9 +90,10 @@ public class Hero extends ElementObj {
         root = ElementManager.eleRoot;
         rootRb = (RigidBody) root.getComponent("RigidBody");
 
-
         heroDown = (HeroDown) addChild("heroDown");
         heroUp = (HeroUp) addChild("heroUp");
+
+
 
         heroUp.transform.setPos(new Vector2());
 
@@ -113,10 +121,10 @@ public class Hero extends ElementObj {
     public void onKeyPressed(int key) {
         super.onKeyPressed(key);
         this.keyOn[key] = true;
-        if (key == KeyEvent.VK_D) {
-            this.keyOn[KeyEvent.VK_A] = false;
-        } else if (key == KeyEvent.VK_A) {
-            this.keyOn[KeyEvent.VK_D] = false;
+        if (key == K_RIGHT) {
+            this.keyOn[K_LEFT] = false;
+        } else if (key == K_LEFT) {
+            this.keyOn[K_RIGHT] = false;
         }
     }
 
@@ -124,6 +132,9 @@ public class Hero extends ElementObj {
     public void onKeyReleased(int key) {
         super.onKeyReleased(key);
         this.keyOn[key] = false;
+        if (this.keyOn[K_ATK]) {
+            this.lastAttackTime = 0;
+        }
     }
 
     @Override
@@ -142,7 +153,7 @@ public class Hero extends ElementObj {
     }
 
     private void attack(long time) {
-        isAttacking = keyOn[KeyEvent.VK_J];
+        isAttacking = keyOn[K_ATK];
         if (isAttacking) {
             int dir = facing == Direction.RIGHT ? 1 : 0;
             int timeSpan = aniMap.get("attack" + bulletType + dir).getTotalTime();
@@ -169,7 +180,7 @@ public class Hero extends ElementObj {
     }
 
     private void jump(long time) {
-        if (!isJumping && keyOn[KeyEvent.VK_K]) {
+        if (!isJumping && keyOn[K_JUMP]) {
             isJumping = true;
             vel.y = -jumpSpeed;
 
@@ -234,7 +245,7 @@ public class Hero extends ElementObj {
 
     public void move(long time) {
         isMoving = true;
-        isSquatting = keyOn[KeyEvent.VK_CONTROL];
+        isSquatting = keyOn[K_SQUAT];
 
         if (keyOn[KeyEvent.VK_D]) {
             vel.x = speed;

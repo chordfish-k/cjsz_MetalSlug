@@ -43,15 +43,22 @@ public class Sprite extends ComponentBase{
     public Vector2 getOffset() {
         return new Vector2(
                 getWidth() * getCenter().x,
-                getWidth() * getCenter().y
+                getHeight() * getCenter().y
         );
     }
 
     @Override
     public void onDraw(Graphics g) {
-        //super.onDraw(g);
-        g.setColor(Color.RED);
+        super.onDraw(g);
+//        draw(g);
+    }
+
+    public void draw(Graphics g) {
         Vector2 v = parent.calcAbsolutePos().add(getCenter());
-        g.drawOval((int)v.x-1, (int)v.y-1, 2, 2);
+        g.drawImage(
+                getSprite().getImage(),
+                (int)(v.x - getOffset().x),
+                (int)(v.y - getOffset().y),
+                getWidth(), getHeight(), null);
     }
 }

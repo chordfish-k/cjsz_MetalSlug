@@ -32,11 +32,6 @@ public class HeroDown extends ElementObj{
     @Override
     public void onDraw(Graphics g) {
         super.onDraw(g);
-        Vector2 pos = calcAbsolutePos();
-        g.drawImage(
-                sp.getSprite().getImage(),
-                (int)(pos.x - sp.getWidth() * sp.getCenter().x),
-                (int)(pos.y - sp.getWidth() * sp.getCenter().y),
-                sp.getWidth(), sp.getHeight(), null);
+        sp.draw(g);
     }
 }

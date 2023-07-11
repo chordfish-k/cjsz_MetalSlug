@@ -137,7 +137,6 @@ public class RigidBody extends ComponentBase{
             shape_ = bc.getShape().clone();
             shape_.setCenter(shape_.getCenter().add(dvel));
 
-            // TODO: 防止隧穿
 //            float l = shape_.projectOn(d);
 //            Vector2 nd = d.normalize();
 //            System.out.println(l);
