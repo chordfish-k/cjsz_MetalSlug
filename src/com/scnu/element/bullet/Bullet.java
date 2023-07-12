@@ -8,6 +8,7 @@ import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
 import com.scnu.element.component.Sprite;
 import com.scnu.manager.ElementManager;
+import com.scnu.manager.ElementType;
 import com.scnu.manager.GameLoad;
 import com.scnu.show.GameJFrame;
 import com.scnu.geometry.Vector2;
@@ -97,12 +98,7 @@ public class Bullet extends ElementObj {
     @Override
     public void onDraw(Graphics g) {
         super.onDraw(g);
-        Vector2 pos = calcAbsolutePos();
-        g.drawImage(
-                sp.getSprite().getImage(),
-                (int)(pos.x - sp.getWidth() * sp.getCenter().x),
-                (int)(pos.y - sp.getWidth() * sp.getCenter().y),
-                sp.getWidth(), sp.getHeight(), null);
+        sp.draw(g);
     }
 
     @Override
@@ -131,7 +127,7 @@ public class Bullet extends ElementObj {
     @Override
     public void onCollision(ElementObj other) {
         // 检测是不是自己人
-        if (by.equals(other.getElementType().name())) {
+        if (other.getElementType() == getAttackerType()) {
             return;
         }
         // 被子弹打到的元素，如果有HealthValue组件，则扣血
@@ -149,4 +145,9 @@ public class Bullet extends ElementObj {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+    public ElementType getAttackerType() {
+        return ElementType.valueOf(this.by.toUpperCase());
+    }
+
 }

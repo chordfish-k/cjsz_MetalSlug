@@ -65,10 +65,17 @@ public class GameLoad {
                 String key = names.nextElement().toString();
                 String[] arrs = pro.getProperty(key).split(";");
                 if (key.equals("ENEMY")) {
-                    // 后续改为动态加载+对象池
                     for (String arr : arrs) {
                         ElementObj enemy = createElementByName("enemy", arr + "," + "left");
                         em.addElement(enemy, ElementType.ENEMY);
+                        ElementManager.eleRoot.addChild(enemy);
+                    }
+                    continue;
+                }
+                else if (key.equals("HOSTAGE")) {
+                    for (String arr : arrs) {
+                        ElementObj enemy = createElementByName("hostage", arr);
+                        em.addElement(enemy, ElementType.HOSTAGE);
                         ElementManager.eleRoot.addChild(enemy);
                     }
                     continue;

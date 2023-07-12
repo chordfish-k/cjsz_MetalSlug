@@ -11,5 +11,5 @@ public enum ElementType {
      * ENEMY 敌人
      *
      */
-    DEFAULT, BACK, MAP, PLAYER, ENEMY, BULLET, EFFECT, DIE
+    DEFAULT, BACK, HOSTAGE, P_BULLET, E_BULLET, PLAYER, ENEMY, EFFECT, DIE
 }

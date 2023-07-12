@@ -8,3 +8,5 @@ heroDown=com.scnu.element.entity.HeroDown
 
 enemy=com.scnu.element.entity.Enemy
 enemy_die=com.scnu.element.entity.EnemyDie
+
+hostage=com.scnu.element.entity.Hostage

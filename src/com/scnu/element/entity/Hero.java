@@ -193,7 +193,7 @@ public class Hero extends ElementObj {
                 y += offset.y;
 
                 Bullet b =(Bullet) new Bullet().create("x:" + x + ",y:" + y + ",f:" + facing.name()+",by:player");
-                ElementManager.getManager().addElement(b, ElementType.BULLET);
+                ElementManager.getManager().addElement(b, ElementType.P_BULLET);
             }
         }
     }

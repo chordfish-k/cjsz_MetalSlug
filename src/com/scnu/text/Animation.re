@@ -76,3 +76,8 @@ enemy_standR11=enemy_standR101;enemy_standR111;
 enemy_standR20=enemy_standR200;enemy_standR210;
 enemy_standR21=enemy_standR201;enemy_standR211;
 
+hostage_phase0=hostage0;hostage1;hostage2;
+hostage_phase1=hostage3;hostage4;hostage5;hostage6;hostage7;
+hostage_phase2=hostage5;hostage6;hostage7;|8
+hostage_phase3=hostage8;hostage9;hostage10;hostage11;hostage12;hostage13;hostage14;hostage15;hostage16;hostage17;hostage18;hostage18;hostage18;
+hostage_phase4=hostage31;hostage32;hostage33;hostage34;hostage35;hostage36;hostage37;

@@ -360,5 +360,44 @@ enemy_standR201=images/enemy/R/enemy_stand201.png
 enemy_standR210=images/enemy/R/enemy_stand210.png
 enemy_standR211=images/enemy/R/enemy_stand211.png
 
+hostage0=images/hostage/oder0.png|1,1
+hostage1=images/hostage/oder1.png|1,1
+hostage2=images/hostage/oder2.png|1,1
 
+hostage3=images/hostage/oder3.png|1,1
+hostage4=images/hostage/oder4.png|1,1
+hostage5=images/hostage/oder5.png|1,1
+hostage6=images/hostage/oder6.png|1,1
+hostage7=images/hostage/oder7.png|1,1
 
+hostage8=images/hostage/oder8.png|1,1
+hostage9=images/hostage/oder9.png|1,1
+hostage10=images/hostage/oder10.png|1,1
+hostage11=images/hostage/oder11.png|1,1
+hostage12=images/hostage/oder12.png|1,1
+hostage13=images/hostage/oder13.png|1,1
+hostage14=images/hostage/oder14.png|1,1
+hostage15=images/hostage/oder15.png|1,1
+hostage16=images/hostage/oder16.png|1,1
+hostage17=images/hostage/oder17.png|1,1
+hostage18=images/hostage/oder18.png|1,1
+
+hostage19=images/hostage/oder19.png|1,1
+hostage20=images/hostage/oder20.png|1,1
+hostage21=images/hostage/oder21.png|1,1
+hostage22=images/hostage/oder22.png|1,1
+hostage23=images/hostage/oder23.png|1,1
+hostage24=images/hostage/oder24.png|1,1
+hostage25=images/hostage/oder25.png|1,1
+hostage26=images/hostage/oder26.png|1,1
+hostage27=images/hostage/oder27.png|1,1
+hostage28=images/hostage/oder28.png|1,1
+hostage29=images/hostage/oder29.png|1,1
+hostage30=images/hostage/oder30.png|1,1
+hostage31=images/hostage/oder31.png|1,1
+hostage32=images/hostage/oder32.png|1,1
+hostage33=images/hostage/oder33.png|1,1
+hostage34=images/hostage/oder34.png|1,1
+hostage35=images/hostage/oder35.png|1,1
+hostage36=images/hostage/oder36.png|1,1
+hostage37=images/hostage/oder37.png|1,1

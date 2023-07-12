@@ -12,7 +12,6 @@ import com.scnu.manager.GameLoad;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public class Enemy extends ElementObj {
@@ -25,6 +24,7 @@ public class Enemy extends ElementObj {
 
     private Direction facing = Direction.LEFT;
     private Vector2 vel = Vector2.ZERO;
+
     private int sightRange = 300; // 检测该范围内的玩家
     private int walkRange = 50; // 在这个范围内巡逻
 
@@ -254,7 +254,7 @@ public class Enemy extends ElementObj {
         int x = (int)transform.getX() + (this.facing == Direction.LEFT ? -100 : 100);
         int y = (int)transform.getY() - 40;
         Bullet b =(Bullet) new Bullet().create("x:" + x + ",y:" + y + ",f:" + facing.name()+",by:ENEMY,speed:30");
-        ElementManager.getManager().addElement(b, ElementType.BULLET);
+        ElementManager.getManager().addElement(b, ElementType.E_BULLET);
         isAttacking = false;
     }
 }
