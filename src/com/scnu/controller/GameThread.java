@@ -74,6 +74,9 @@ public class GameThread extends Thread {
         GameLoad.loadRoot();
         GameLoad.loadBackground();
         GameLoad.LoadMap(this.levelNum);
+        //GameLoad.LoadMap(this.levelNum);
+        GameLoad.loadMusic("music/music (13).wav");
+        GameLoad.playMusic();
         GameLoad.loadPlayer();
 
         GameLoad.loadCollision();

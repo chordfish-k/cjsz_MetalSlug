@@ -34,10 +34,10 @@ public class PlayFile extends ElementObj {
         this.shoter = shoter;
     }
     @Override   //{X:3,y:5,f:up}
-    public ElementObj createElement(String str) {//�����ַ����Ĺ���
+    public ElementObj createElement(String str) {
         String[] split = str.split(",");
         for (String str1 : split) {//X:3
-            String[] split2 = str1.split(":");// 0�±� �� x,y,f   1�±���ֵ
+            String[] split2 = str1.split(":");
             switch (split2[0]) {
                 case "x":
                     this.setX(Integer.parseInt(split2[1]));

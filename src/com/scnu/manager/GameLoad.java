@@ -8,8 +8,12 @@ import com.scnu.element.map.BarrierObj;
 import com.scnu.geometry.Vector2;
 import com.scnu.show.GameJFrame;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -31,6 +35,9 @@ public class GameLoad {
     public static Map<String, Class<?>> objMap = new HashMap<>();
     // 碰撞检查集合
     public static Map<ElementType, List<ElementType>> colMap = new HashMap<>();
+
+    //音乐
+    private static Clip clip;
 
     // 读取配置文件的类
     private static final Properties pro = new Properties();
@@ -279,5 +286,19 @@ public class GameLoad {
         }
         return obj;
     }
-
+    public static void loadMusic(String filename){
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filename));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void playMusic() {
+        if (clip != null) {
+            clip.setFramePosition(0); // 从音频的开头开始播放
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // 循环播放音频
+        }
+    }
 }
