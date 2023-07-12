@@ -1,45 +1,53 @@
 package com.scnu.anim;
 
+import com.scnu.element.ElementObj;
 import com.scnu.manager.GameLoad;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 动画帧序列组
  * @author LSR
  */
 public class AnimationClip {
+    private class AnimationRecord {
+        int index = 0;
+        long lastTime = 0;
+    }
     public List<String> frameNames = new ArrayList<>();
-    private long lastTime = 0;
-    public int frameSpan = 4;
-    public int index = 0;
+    private int frameSpan = 4;
+    private final Map<ElementObj, AnimationRecord> indexList = new HashMap();
 
     public int size() {
         return frameNames.size();
     }
 
-    public SpriteImg nextFrame(long currentTime) {
+    public SpriteImg nextFrame(long currentTime, ElementObj obj) {
         // 如果超一定时间，则复原
-        if (currentTime > lastTime + getTotalTime()) {
-            reset();
+        if (currentTime > indexList.get(obj).lastTime + getTotalTime()) {
+            reset(obj);
         }
+        int index = indexList.get(obj).index;
+        if (currentTime > indexList.get(obj).lastTime + frameSpan) {
+            indexList.get(obj).lastTime = currentTime;
 
-        if (currentTime > lastTime + frameSpan) {
-            lastTime = currentTime;
 
-            if (index < size()-1)
+            if (index < size()-1) {
                 index++;
-            else
-                reset();
+                indexList.get(obj).index = index;
+            } else
+                reset(obj);
         }
 
         return GameLoad.imgMap.get(frameNames.get(index));
     }
 
-    public void reset() {
-        index = 0;
+    public void reset(ElementObj obj) {
+        indexList.get(obj).index = 0;
     }
 
     public void setFrameSpan(int frameSpan) {
@@ -50,7 +58,16 @@ public class AnimationClip {
         return frameSpan * frameNames.size();
     }
 
-    public int getIndex() {
-        return index;
+    public int getIndex(ElementObj obj) {
+        if (indexList.containsKey(obj)) {
+            return indexList.get(obj).index;
+        }
+        return 0;
+    }
+
+    public void requireAnime(ElementObj obj) {
+        if (!indexList.containsKey(obj)) {
+            indexList.put(obj, new AnimationRecord());
+        }
     }
 }

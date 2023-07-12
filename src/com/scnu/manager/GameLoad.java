@@ -84,22 +84,22 @@ public class GameLoad {
         pro.clear();
 
         //创建地图边界
-        int barrierWidth = 10;
-        int offsetH = -40;
-        int offsetW = -10;
-        BarrierObj left  = new BarrierObj().setRect(
-                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
-        BarrierObj right = new BarrierObj().setRect(
-                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
-        BarrierObj up    = new BarrierObj().setRect(
-                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
-        BarrierObj down  = new BarrierObj().setRect(
-                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
-
-        em.addElement(left,ElementType.MAP);
-        em.addElement(right,ElementType.MAP);
-        em.addElement(up,ElementType.MAP);
-        em.addElement(down,ElementType.MAP);
+//        int barrierWidth = 10;
+//        int offsetH = -40;
+//        int offsetW = -10;
+//        BarrierObj left  = new BarrierObj().setRect(
+//                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
+//        BarrierObj right = new BarrierObj().setRect(
+//                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
+//        BarrierObj up    = new BarrierObj().setRect(
+//                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
+//        BarrierObj down  = new BarrierObj().setRect(
+//                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
+//
+//        em.addElement(left,ElementType.MAP);
+//        em.addElement(right,ElementType.MAP);
+//        em.addElement(up,ElementType.MAP);
+//        em.addElement(down,ElementType.MAP);
     }
 
     /**
@@ -128,8 +128,8 @@ public class GameLoad {
 
                 if (split.length > 1) {
                     String[] s = split[1].split(",");
-                    center.x = Integer.parseInt(s[0]);
-                    center.y = Integer.parseInt(s[1]);
+                    center.x = Float.parseFloat(s[0]);
+                    center.y = Float.parseFloat(s[1]);
                 }
 
                 // 存入map中

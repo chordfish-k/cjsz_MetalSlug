@@ -61,15 +61,17 @@ public class Bullet extends ElementObj {
                 case "by":
                     this.by = kv[1];
                     break;
+                case "speed":
+                    this.speed = Integer.parseInt(kv[1]);
+                    break;
             }
         }
 
-        this.setW(10);
-        this.setH(10);
         this.transform.setPos(new Vector2(x, y));
         this.speed = 50;
         this.damage = 1;
         this.radius = 5;
+        col.setSize(new Vector2(2*radius, 2*radius));
 
         int dir = this.facing == Direction.LEFT ? 0 : 1;
         sp.setSprite(GameLoad.imgMap.get("bullet0"+dir));

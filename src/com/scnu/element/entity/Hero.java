@@ -99,6 +99,25 @@ public class Hero extends ElementObj {
 
         boxCollider = (BoxCollider) addComponent("BoxCollider", "shape:Rectangle,w:30,h:55");//,offX:60,offY:40
         rigidBody = (RigidBody) addComponent("RigidBody");
+
+        requireAnimations();
+    }
+
+    private void requireAnimations() {
+        String[] sList = {"run", "jump_leg", "squat_run", "attack", "jump_body"};
+        for (int i=0; i<sList.length; i++) {
+//            System.out.println(i);
+            if (i < 3) {
+                GameLoad.aniMap.get(sList[i] + "0").requireAnime(this);
+                GameLoad.aniMap.get(sList[i] + "1").requireAnime(this);
+            }
+            else {
+                GameLoad.aniMap.get(sList[i] + "00").requireAnime(this);
+                GameLoad.aniMap.get(sList[i] + "01").requireAnime(this);
+                GameLoad.aniMap.get(sList[i] + "10").requireAnime(this);
+                GameLoad.aniMap.get(sList[i] + "11").requireAnime(this);
+            }
+        }
     }
 
     public Hero create(String data) {
@@ -186,8 +205,8 @@ public class Hero extends ElementObj {
 
             int dir = facing == Direction.RIGHT ? 1 : 0;
             // 重置动画
-            aniMap.get("jump_leg"+dir).reset();
-            aniMap.get("jump_body"+bulletType+dir).reset();
+            aniMap.get("jump_leg"+dir).reset(this);
+            aniMap.get("jump_body"+bulletType+dir).reset(this);
         }
         if (isJumping) {
             int accelY = (int)(gravity * dt * 0.1f);
@@ -208,6 +227,9 @@ public class Hero extends ElementObj {
     }
 
     private void adjustChildPos() {
+        boxCollider.setSize(new Vector2(30, 55));
+        boxCollider.setOffset(new Vector2(0, 0));
+
         if (facing == Direction.RIGHT) {
             if(!isSquatting) {
                 if (isMoving && !isJumping) {
@@ -218,11 +240,13 @@ public class Hero extends ElementObj {
                     heroDown.transform.setPos(dirOffset[0]);
                     heroUp.transform.setPos(dirOffset[1]);
                 }
-
             }
             else {
                 heroDown.transform.setPos(dirOffset[4]);
                 heroUp.transform.setPos(dirOffset[5]);
+
+                boxCollider.setSize(new Vector2(30, 30));
+                boxCollider.setOffset(new Vector2(0, 15));
             }
         }
         else if (facing == Direction.LEFT) {
@@ -239,6 +263,9 @@ public class Hero extends ElementObj {
             else {
                 heroDown.transform.setPos(dirOffset[6]);
                 heroUp.transform.setPos(dirOffset[7]);
+
+                boxCollider.setSize(new Vector2(30, 30));
+                boxCollider.setOffset(new Vector2(0, 15));
             }
         }
     }
@@ -269,8 +296,8 @@ public class Hero extends ElementObj {
         String squat = isSquatting ? "squat_" : "";
 
         if (isJumping) {
-            heroDown.sp.setSprite(aniMap.get("jump_leg"+dir).nextFrame(time));
-            heroUp.sp.setSprite(aniMap.get("jump_body"+bulletType+dir).nextFrame(time));
+            heroDown.sp.setSprite(aniMap.get("jump_leg"+dir).nextFrame(time, this));
+            heroUp.sp.setSprite(aniMap.get("jump_body"+bulletType+dir).nextFrame(time, this));
 
         }
         else {
@@ -279,13 +306,13 @@ public class Hero extends ElementObj {
             }
             else {
 
-                heroDown.sp.setSprite(aniMap.get(squat + "run"+dir).nextFrame(time));
+                heroDown.sp.setSprite(aniMap.get(squat + "run"+dir).nextFrame(time, this));
             }
             if(!isAttacking)
                 heroUp.sp.setSprite(imgMap.get("attack" + bulletType + "0" + dir));
         }
         if (isAttacking) {
-            heroUp.sp.setSprite(aniMap.get("attack" + bulletType + dir).nextFrame(time));
+            heroUp.sp.setSprite(aniMap.get("attack" + bulletType + dir).nextFrame(time, this));
         }
 
     }
