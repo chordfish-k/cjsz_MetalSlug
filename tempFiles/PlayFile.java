@@ -33,8 +33,6 @@ public class PlayFile extends ElementObj {
     public PlayFile(String shoter) {
         this.shoter = shoter;
     }
-
-    //	�Դ����������Ĺ��̽��з�װ�����ֻ��Ҫ�����Ҫ��Լ������������ֵ���Ƕ���ʵ��
     @Override   //{X:3,y:5,f:up}
     public ElementObj createElement(String str) {//�����ַ����Ĺ���
         String[] split = str.split(",");
