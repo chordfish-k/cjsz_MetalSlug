@@ -8,8 +8,12 @@ import com.scnu.element.map.BarrierObj;
 import com.scnu.geometry.Vector2;
 import com.scnu.show.GameJFrame;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -31,6 +35,9 @@ public class GameLoad {
     public static Map<String, Class<?>> objMap = new HashMap<>();
     // 碰撞检查集合
     public static Map<ElementType, List<ElementType>> colMap = new HashMap<>();
+
+    //音乐
+    private static Clip clip;
 
     // 读取配置文件的类
     private static final Properties pro = new Properties();
@@ -84,22 +91,22 @@ public class GameLoad {
         pro.clear();
 
         //创建地图边界
-        int barrierWidth = 10;
-        int offsetH = -40;
-        int offsetW = -10;
-        BarrierObj left  = new BarrierObj().setRect(
-                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
-        BarrierObj right = new BarrierObj().setRect(
-                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
-        BarrierObj up    = new BarrierObj().setRect(
-                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
-        BarrierObj down  = new BarrierObj().setRect(
-                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
-
-        em.addElement(left,ElementType.MAP);
-        em.addElement(right,ElementType.MAP);
-        em.addElement(up,ElementType.MAP);
-        em.addElement(down,ElementType.MAP);
+//        int barrierWidth = 10;
+//        int offsetH = -40;
+//        int offsetW = -10;
+//        BarrierObj left  = new BarrierObj().setRect(
+//                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
+//        BarrierObj right = new BarrierObj().setRect(
+//                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
+//        BarrierObj up    = new BarrierObj().setRect(
+//                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
+//        BarrierObj down  = new BarrierObj().setRect(
+//                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
+//
+//        em.addElement(left,ElementType.MAP);
+//        em.addElement(right,ElementType.MAP);
+//        em.addElement(up,ElementType.MAP);
+//        em.addElement(down,ElementType.MAP);
     }
 
     /**
@@ -128,8 +135,8 @@ public class GameLoad {
 
                 if (split.length > 1) {
                     String[] s = split[1].split(",");
-                    center.x = Integer.parseInt(s[0]);
-                    center.y = Integer.parseInt(s[1]);
+                    center.x = Float.parseFloat(s[0]);
+                    center.y = Float.parseFloat(s[1]);
                 }
 
                 // 存入map中
@@ -272,5 +279,19 @@ public class GameLoad {
         }
         return obj;
     }
-
+    public static void loadMusic(String filename){
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filename));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void playMusic() {
+        if (clip != null) {
+            clip.setFramePosition(0); // 从音频的开头开始播放
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // 循环播放音频
+        }
+    }
 }

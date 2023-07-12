@@ -3,9 +3,6 @@ package com.scnu.element.entity;
 import com.scnu.anim.AnimationClip;
 import com.scnu.controller.Direction;
 import com.scnu.element.ElementObj;
-import com.scnu.element.component.BoxCollider;
-import com.scnu.element.component.HealthValue;
-import com.scnu.element.component.RigidBody;
 import com.scnu.element.component.Sprite;
 import com.scnu.geometry.Vector2;
 import com.scnu.manager.GameLoad;
@@ -21,6 +18,9 @@ public class EnemyDie extends ElementObj {
     public EnemyDie() {
         sp = (Sprite) addComponent("Sprite");
         sp.setSprite(GameLoad.imgMap.get("enemy_standL000"));
+
+        GameLoad.aniMap.get("enemy_dieL00").requireAnime(this);
+        GameLoad.aniMap.get("enemy_dieL01").requireAnime(this);
     }
 
     @Override
@@ -47,9 +47,11 @@ public class EnemyDie extends ElementObj {
     }
 
     private void changeSprite(long time) {
-        AnimationClip ac = GameLoad.aniMap.get("enemy_dieL00");
-        sp.setSprite(ac.nextFrame(time));
-        if (ac.getIndex() == ac.size() - 1) {
+        int dir = this.facing == Direction.LEFT ? 0 : 1;
+
+        AnimationClip ac = GameLoad.aniMap.get("enemy_dieL0"+dir);
+        sp.setSprite(ac.nextFrame(time, this));
+        if (ac.getIndex(this) == ac.size() - 1) {
             destroy();
         }
     }
