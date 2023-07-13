@@ -32,7 +32,6 @@ public class Gift extends ElementObj {
         int x = Integer.parseInt(split[0]);
         int y = Integer.parseInt(split[1]);
         transform.setPos(new Vector2(x, y));
-        System.out.println(x+","+y);
         return this;
     }
 

@@ -25,7 +25,6 @@ public class BackgroundObj extends ElementObj {
 
     @Override
     public ElementObj create(String data) {
-        System.out.println("yes");
         return this;
     }
 

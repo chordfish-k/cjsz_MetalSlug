@@ -2,14 +2,11 @@ package com.scnu.controller;
 
 import com.scnu.element.ElementObj;
 import com.scnu.element.ElementState;
-import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
 import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
 import com.scnu.manager.GameLoad;
-import com.scnu.manager.UIManager;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +19,8 @@ import java.util.Map;
 public class GameThread extends Thread {
 
     private final ElementManager em;
-    private final UIManager um;
     private int gameRunFrameSleep = 16; // 1000 / 16 =  60Hz
     private long gameTime = 0L; // 帧计时器
-
-    private PhysicsThread physicTh = null;
 
     private boolean isThreadRunning = true; // 主进程是否继续
     private boolean isRunning = false; // 游戏是否继续
@@ -36,7 +30,6 @@ public class GameThread extends Thread {
 
     public GameThread() {
         em = ElementManager.getManager();
-        um = UIManager.getManager();
     }
 
     @Override
@@ -83,14 +76,9 @@ public class GameThread extends Thread {
 
         callOnLoad();
 
-//        physicTh = new PhysicsThread();
-//        physicTh.start();
-
         isRunning = true;
         isWon = false;
         gameTime = 0;
-
-        ((JLabel)um.getUI("settlementLabel")).setText("");
     }
 
     /**
@@ -129,33 +117,7 @@ public class GameThread extends Thread {
      * 游戏场景结束
      */
     private void gameOver() {
-        // 先进入结算5秒
-        if (isWon) {
-            // 赢了5秒后进入下一关
-            if (levelNum < 2){
-                levelNum ++;
-            }
-            else {
-                this.isThreadRunning = false;
-            }
-            HealthValue hv = (HealthValue) em.getElementsByType(ElementType.PLAYER).get(0).getComponent("HealthValue");
-            int score = hv.getHealth();
-            sumScore += score;
-            ((JLabel)um.getUI("settlementLabel")).setText("your score: "+sumScore+" (+"+score+")");
 
-        } else {
-            this.isThreadRunning = false;
-            // 输了5秒后退出
-            ((JLabel)um.getUI("settlementLabel")).setText("your score: "+sumScore);
-        }
-
-        em.cleanAll();
-
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void finishGameRun() {

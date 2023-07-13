@@ -367,11 +367,4 @@ public class Hero extends ElementObj {
                 .text = "bullet num: "+bullet1Num;
     }
 
-    @Override
-    public void onCollision(ElementObj other) {
-        super.onCollision(other);
-//        if (other instanceof Gift) {
-//            System.out.println("yes");
-//        }
-    }
 }
