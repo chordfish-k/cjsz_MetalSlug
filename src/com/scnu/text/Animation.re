@@ -81,3 +81,6 @@ hostage_phase1=hostage3;hostage4;hostage5;hostage6;hostage7;
 hostage_phase2=hostage5;hostage6;hostage7;|8
 hostage_phase3=hostage8;hostage9;hostage10;hostage11;hostage12;hostage13;hostage14;hostage15;hostage16;hostage17;hostage18;hostage18;hostage18;
 hostage_phase4=hostage31;hostage32;hostage33;hostage34;hostage35;hostage36;hostage37;
+
+boss=boss0;boss1;boss2;boss3;boss4;boss5;boss6;boss7;boss8;boss9;boss10;boss11;boss10;boss12;boss13;boss14;boss15;|8
+boss=boss0;boss1;boss2;boss3;boss4;boss5;boss6;boss7;boss8;boss9;boss10;boss11;boss10;boss12;boss13;boss14;boss15;|8

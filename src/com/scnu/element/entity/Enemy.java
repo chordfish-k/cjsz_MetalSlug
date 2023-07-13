@@ -26,6 +26,7 @@ public class Enemy extends ElementObj {
     private Vector2 vel = Vector2.ZERO;
 
     private int sightRange = 300; // 检测该范围内的玩家
+    private int reachRange = 450; // 玩家离开攻击范围后会进行追逐的范围
     private int walkRange = 50; // 在这个范围内巡逻
 
     // 巡逻参数
@@ -42,10 +43,12 @@ public class Enemy extends ElementObj {
     // 状态
     private boolean isRunning = false;
     private boolean isAttacking = false;
+    private boolean isTracing = false;
 
     private Transform attackTarget = null;
 
     private int speed = 20;
+    private int runSpeed = 30;
 
     // 组件
     Sprite sp = null;
@@ -164,33 +167,39 @@ public class Enemy extends ElementObj {
     private void ai(long time) {
         Vector2 ePos = transform.getPos();
         if (attackTarget == null) {
-            // 四处巡逻
-            if (time - lastRanTime > ranSpan) {
-                lastRanTime = time;
+            if (!isTracing) {
+                // 四处巡逻
+                if (time - lastRanTime > ranSpan) {
+                    lastRanTime = time;
 
-                int r = ran.nextInt(100);
-                // 移动
-                if (r < 10) { // 转向
-                    this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
-                    vel.x = -vel.x;
-                }
-                else if (r < 60){
-                    if (ePos.x > originalX - walkRange && this.facing == Direction.LEFT ||
-                            ePos.x < originalX + walkRange && this.facing == Direction.RIGHT) {
-                        isRunning = true;
-                        vel.x = speed * (this.facing == Direction.LEFT ? -1 : 1);
+                    int r = ran.nextInt(100);
+                    // 移动
+                    if (r < 10) { // 转向
+                        this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+                        vel.x = -vel.x;
+                    }
+                    else if (r < 60){
+                        if (ePos.x > originalX - walkRange && this.facing == Direction.LEFT ||
+                                ePos.x < originalX + walkRange && this.facing == Direction.RIGHT) {
+                            isRunning = true;
+                            vel.x = speed * (this.facing == Direction.LEFT ? -1 : 1);
+                        }
+                        else {
+                            isRunning = false;
+                            vel.x = 0;
+                            this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+                        }
+
                     }
                     else {
                         isRunning = false;
                         vel.x = 0;
-                        this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
                     }
-
                 }
-                else {
-                    isRunning = false;
-                    vel.x = 0;
-                }
+            }
+            else {
+                isRunning = true;
+                vel.x = runSpeed * (this.facing == Direction.LEFT ? -1 : 1);
             }
 
             // 检测玩家
@@ -211,7 +220,7 @@ public class Enemy extends ElementObj {
                 // 发现玩家，并将玩家设为目标
                 attackTarget = playerList.get(0).transform;
                 switchCounter = 0;
-
+                isTracing = false;
             }
         }
         else {
@@ -224,8 +233,14 @@ public class Enemy extends ElementObj {
                 int dis = (int)(ePos.x - attackTarget.getX());
 
                 // 丢失目标
+
                 if (Math.abs(dis) > sightRange) {
                     attackTarget = null;
+                    if (Math.abs(dis) < reachRange) {
+                        isRunning = true;
+                        isTracing = true;
+                        this.facing = dis < 0 ? Direction.RIGHT : Direction.LEFT;
+                    }
                 }
                 else {
                     boolean isOnLeft = dis > 0;

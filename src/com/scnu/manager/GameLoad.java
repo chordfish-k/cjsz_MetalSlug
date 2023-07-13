@@ -87,6 +87,14 @@ public class GameLoad {
                     }
                     continue;
                 }
+                else if (key.equals("BOSS")) {
+                    for (String arr : arrs) {
+                        ElementObj enemy = createElementByName("boss", arr);
+                        em.addElement(enemy, ElementType.BOSS);
+                        ElementManager.eleRoot.addChild(enemy);
+                    }
+                    continue;
+                }
 //                for (String arr : arrs) {
 //                    ElementObj element = new MapObj().create(key + "," + arr);
 //                    em.addElement(element, ElementType.MAP);
@@ -252,15 +260,6 @@ public class GameLoad {
             em.addElement(obj, ElementType.PLAYER);
             em.eleRoot.addChild(obj);
         }
-    }
-
-    public static void loadEnemies(List<Vector2> posList) {
-//        Random ran = new Random();
-
-//        for (Vector2 p : posList) {
-//            ElementObj enemy = createElementByName("enemy", p.x+","+p.y+","+"up");
-//            em.addElement(enemy, ElementType.ENEMY);
-//        }
     }
 
 

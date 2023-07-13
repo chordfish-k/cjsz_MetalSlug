@@ -10,3 +10,5 @@ enemy=com.scnu.element.entity.Enemy
 enemy_die=com.scnu.element.entity.EnemyDie
 
 hostage=com.scnu.element.entity.Hostage
+
+boss=com.scnu.element.entity.Boss

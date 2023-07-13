@@ -70,6 +70,8 @@ public class Hostage extends ElementObj {
             if (atk == ElementType.P_BULLET) {
                 // 如果是玩家的子弹
                 phase = 3;
+                // 清除碰撞器
+                bc.setActive(false);
             }
         }
     }
@@ -88,7 +90,7 @@ public class Hostage extends ElementObj {
     }
 
     private void checkOutside() {
-        if (transform.getX() < 0) {
+        if (transform.getX() < 0 && phase == 4) {
             destroy();
         }
     }
