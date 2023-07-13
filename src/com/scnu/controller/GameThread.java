@@ -2,7 +2,6 @@ package com.scnu.controller;
 
 import com.scnu.element.ElementObj;
 import com.scnu.element.ElementState;
-
 import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
 import com.scnu.manager.ElementManager;
@@ -75,7 +74,7 @@ public class GameThread extends Thread {
         GameLoad.loadBackground();
         GameLoad.LoadMap(this.levelNum);
         //GameLoad.LoadMap(this.levelNum);
-        GameLoad.loadMusic("music/music (13).wav");
+        GameLoad.loadMusic("music/reload.wav");
         GameLoad.playMusic();
         GameLoad.loadPlayer();
 
@@ -224,13 +223,11 @@ public class GameThread extends Thread {
      */
     public void testElementsCollision(List<ElementObj> listA, List<ElementObj> listB) {
 
-        for (int i=0; i<listA.size(); i++) {
-            for (int j=0; j<listB.size(); j++) {
-                ElementObj a = listA.get(i);
-                ElementObj b = listB.get(j);
-                if (a.checkCollisionWith(b)) {
-                    a.onCollision(b);
-                    b.onCollision(a);
+        for (ElementObj elementObj : listA) {
+            for (ElementObj obj : listB) {
+                if (elementObj.checkCollisionWith(obj)) {
+                    elementObj.onCollision(obj);
+                    obj.onCollision(elementObj);
                     break;
                 }
             }

@@ -18,7 +18,7 @@ public class GameJFrame extends JFrame {
     public static int INFO_H = 30;
     public static int CAMERA_X = 0;
     public static int CAMERA_Y = 0;
-    public static String TITLE = "合金弹头";
+    public static String TITLE = "Metal Slug RELOAD";
 
     private JPanel panel = null; // 正在显示的面板
     private KeyListener keyListener = null; // 键盘监听器
