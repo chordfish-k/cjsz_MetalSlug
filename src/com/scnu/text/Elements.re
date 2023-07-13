@@ -12,3 +12,7 @@ enemy_die=com.scnu.element.entity.EnemyDie
 hostage=com.scnu.element.entity.Hostage
 
 boss=com.scnu.element.entity.Boss
+
+gift=com.scnu.element.entity.Gift
+
+boom=com.scnu.element.entity.Boom

@@ -5,8 +5,10 @@ import com.scnu.anim.SpriteImg;
 import com.scnu.controller.Direction;
 import com.scnu.element.ElementObj;
 import com.scnu.element.RootObj;
+import com.scnu.element.TextObj;
 import com.scnu.element.bullet.Bullet;
 import com.scnu.element.component.BoxCollider;
+import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
 import com.scnu.geometry.Vector2;
 import com.scnu.manager.ElementManager;
@@ -40,6 +42,8 @@ public class Hero extends ElementObj {
     private boolean isJumping = false;
 
     private int bulletType = 0;
+    private int bullet1MaxNum = 5;
+    private int bullet1Num = 5;
     private long lastAttackTime = 0;
 
     private float gravity = 50f;
@@ -80,6 +84,7 @@ public class Hero extends ElementObj {
     HeroDown heroDown = null;
     RigidBody rigidBody = null;
     BoxCollider boxCollider = null;
+    HealthValue healthValue = null;
 
     boolean[] keyOn = new boolean[255];
 
@@ -99,6 +104,16 @@ public class Hero extends ElementObj {
 
         boxCollider = (BoxCollider) addComponent("BoxCollider", "shape:Rectangle,w:30,h:55");//,offX:60,offY:40
         rigidBody = (RigidBody) addComponent("RigidBody");
+        healthValue = (HealthValue) addComponent("HealthValue");
+
+        healthValue.setOnHealthChangeEvent(new Runnable() {
+            @Override
+            public void run() {
+                ((TextObj)GameLoad.uiMap.get("health"))
+                        .text = "Health: "+healthValue.getHealth();
+            }
+        });
+        healthValue.setMaxHealth(10, true);
 
         requireAnimations();
     }
@@ -192,8 +207,23 @@ public class Hero extends ElementObj {
                 x += offset.x;
                 y += offset.y;
 
-                Bullet b =(Bullet) new Bullet().create("x:" + x + ",y:" + y + ",f:" + facing.name()+",by:player");
+
+
+                if (bulletType == 1) {
+
+                    bullet1Num--;
+                    ((TextObj)GameLoad.uiMap.get("bulletNum"))
+                            .text = "bullet num: "+bullet1Num;
+                    if (bullet1Num < 0) {
+                        bulletType = 0;
+                        ((TextObj)GameLoad.uiMap.get("bulletNum"))
+                                .text = "bullet num: ∞";
+                    }
+                }
+
+                Bullet b =(Bullet) new Bullet().create("x:" + x + ",y:" + y + ",f:" + facing.name()+",by:player,type:"+bulletType);
                 ElementManager.getManager().addElement(b, ElementType.P_BULLET);
+                ElementManager.eleRoot.addChild(b);
             }
         }
     }
@@ -330,4 +360,18 @@ public class Hero extends ElementObj {
     }
 
 
+    public void changeBulletType() {
+        this.bulletType = 1;
+        this.bullet1Num = this.bullet1MaxNum;
+        ((TextObj)GameLoad.uiMap.get("bulletNum"))
+                .text = "bullet num: "+bullet1Num;
+    }
+
+    @Override
+    public void onCollision(ElementObj other) {
+        super.onCollision(other);
+//        if (other instanceof Gift) {
+//            System.out.println("yes");
+//        }
+    }
 }

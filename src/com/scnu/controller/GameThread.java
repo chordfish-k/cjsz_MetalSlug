@@ -79,6 +79,7 @@ public class GameThread extends Thread {
         GameLoad.loadPlayer();
 
         GameLoad.loadCollision();
+        GameLoad.loadUI();
 
         callOnLoad();
 

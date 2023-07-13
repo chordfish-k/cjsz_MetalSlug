@@ -1,6 +1,7 @@
 package com.scnu.element.component;
 
 import com.scnu.anim.SpriteImg;
+import com.scnu.element.entity.Gift;
 import com.scnu.geometry.Vector2;
 
 import javax.swing.*;
@@ -55,10 +56,22 @@ public class Sprite extends ComponentBase{
 
     public void draw(Graphics g) {
         Vector2 v = parent.calcAbsolutePos().add(getCenter());
-        g.drawImage(
+        Vector2 o = getOffset();
+        float ro = parent.transform.rotate;
+        int x = (int)(v.x);
+        int y = (int)(v.y);
+        int ox = (int)o.x;
+        int oy = (int)o.y;
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.translate(x, y);
+        g2d.rotate(Math.toRadians(ro));
+        g2d.translate(-ox, -oy);
+        g2d.drawImage(
                 getSprite().getImage(),
-                (int)(v.x - getOffset().x),
-                (int)(v.y - getOffset().y),
+                0,0,
                 getWidth(), getHeight(), null);
+        g2d.translate(ox, oy);
+        g2d.rotate(-Math.toRadians(ro));
+        g2d.translate(-x, -y);
     }
 }

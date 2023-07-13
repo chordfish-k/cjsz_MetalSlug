@@ -84,3 +84,5 @@ hostage_phase4=hostage31;hostage32;hostage33;hostage34;hostage35;hostage36;hosta
 
 boss=boss0;boss1;boss2;boss3;boss4;boss5;boss6;boss7;boss8;boss9;boss10;boss11;boss10;boss12;boss13;boss14;boss15;|8
 boss=boss0;boss1;boss2;boss3;boss4;boss5;boss6;boss7;boss8;boss9;boss10;boss11;boss10;boss12;boss13;boss14;boss15;|8
+
+boom=boom0;boom1;boom2;boom3;boom4;boom5;boom6;boom7;boom8;boom9;boom10;boom11;boom12;boom13;boom14;boom15;boom16;

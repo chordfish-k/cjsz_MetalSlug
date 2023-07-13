@@ -66,6 +66,12 @@ public class Boss extends ElementObj {
     public void onDestroy() {
         super.onDestroy();
         // 爆炸特效
+        Vector2 v = transform.getPos();
+        int x = (int) v.x;
+        int y = 550;
+        ElementObj obj = GameLoad.createElementByName("boom", x+","+y);
+        ElementManager.getManager().addElement(obj, ElementType.BOOM);
+        ElementManager.eleRoot.addChild(obj);
     }
 
     @Override
@@ -74,6 +80,7 @@ public class Boss extends ElementObj {
 
         ai(time);
         changeSprite(time);
+
     }
 
     private void changeSprite(long time) {

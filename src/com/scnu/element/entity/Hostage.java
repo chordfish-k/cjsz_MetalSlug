@@ -131,7 +131,17 @@ public class Hostage extends ElementObj {
             else if (phase == 3) {
                 phase = 4;
                 vel.x = -speed;
+                // 掉落道具
+                dropGift();
             }
         }
+    }
+
+    private void dropGift() {
+        int x = (int)transform.getX();
+        int y = (int)transform.getY();
+        ElementObj obj = GameLoad.createElementByName("gift", x+","+y);
+        ElementManager.getManager().addElement(obj, ElementType.GIFT);
+        ElementManager.eleRoot.addChild(obj);
     }
 }

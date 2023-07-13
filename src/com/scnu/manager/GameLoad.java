@@ -4,6 +4,7 @@ import com.scnu.anim.AnimationClip;
 import com.scnu.anim.SpriteImg;
 import com.scnu.element.ElementObj;
 import com.scnu.element.RootObj;
+import com.scnu.element.TextObj;
 import com.scnu.element.map.BarrierObj;
 import com.scnu.geometry.Vector2;
 import com.scnu.show.GameJFrame;
@@ -27,6 +28,8 @@ import java.util.List;
 public class GameLoad {
     // 资源管理器
     private static final ElementManager em = ElementManager.getManager();
+    //UI集合
+    public static Map<String, ElementObj> uiMap = new HashMap<>();
     // 图片集合
     public static Map<String, SpriteImg> imgMap = new HashMap<>();
     // 动画集合
@@ -81,9 +84,9 @@ public class GameLoad {
                 }
                 else if (key.equals("HOSTAGE")) {
                     for (String arr : arrs) {
-                        ElementObj enemy = createElementByName("hostage", arr);
-                        em.addElement(enemy, ElementType.HOSTAGE);
-                        ElementManager.eleRoot.addChild(enemy);
+                        ElementObj hostage = createElementByName("hostage", arr);
+                        em.addElement(hostage, ElementType.HOSTAGE);
+                        ElementManager.eleRoot.addChild(hostage);
                     }
                     continue;
                 }
@@ -260,6 +263,20 @@ public class GameLoad {
             em.addElement(obj, ElementType.PLAYER);
             em.eleRoot.addChild(obj);
         }
+    }
+
+    public static void loadUI() {
+        TextObj health = new TextObj("微软雅黑", Font.BOLD, 20);
+        health.transform.setPos(new Vector2(10,30));
+        health.text = "Health: 10";
+        em.addElement(health, ElementType.UI);
+        uiMap.put("health", health);
+
+        TextObj bulletNum = new TextObj("微软雅黑", Font.BOLD, 20);
+        bulletNum.transform.setPos(new Vector2(10,50));
+        bulletNum.text = "bullet num: ∞";
+        em.addElement(bulletNum, ElementType.UI);
+        uiMap.put("bulletNum", bulletNum);
     }
 
 

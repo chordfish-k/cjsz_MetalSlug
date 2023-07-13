@@ -59,7 +59,7 @@ public class Polygon {
 
         for(int i=0; i<getPoints().size(); i++) {
             Vector2 p = getPoints().get(i);
-            p.set(getPoints().get(i).add(d));
+            p.set(p.add(d));
             //System.out.println(p.y);
         }
         //System.out.println(getPoints().get(0).y);
@@ -98,12 +98,10 @@ public class Polygon {
             Vector2 p2b = b.sub(p);
             // 叉乘
             float re = p2b.x * p2a.y - p2b.y * p2a.x;
-            //System.out.println(a + ", " + b + ", " + p + ", " + p2a + ", " + p2b + ", "+ re);
             if (re < 0) {
                 return false;
             }
         }
-        //System.out.println("---");
         return true;
     }
 

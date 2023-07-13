@@ -1,13 +1,3 @@
-left=image/tank/play1/player1_left.png
-right=image/tank/play1/player1_right.png
-up=image/tank/play1/player1_up.png
-down=image/tank/play1/player1_down.png
-
-bot_left=image/tank/bot/bot_left.png
-bot_right=image/tank/bot/bot_right.png
-bot_up=image/tank/bot/bot_up.png
-bot_down=image/tank/bot/bot_down.png
-
 background=images/background/backimage1.gif
 
 attack000=images/plays/attack000.png
@@ -125,10 +115,10 @@ knife31=images/plays/knife31.png
 knife40=images/plays/knife40.png
 knife41=images/plays/knife41.png
 
-bullet00=images/bullet/bullet00.png
-bullet01=images/bullet/bullet01.png
-bullet10=images/bullet/bullet10.png
-bullet11=images/bullet/bullet11.png
+bullet00=images/bullet/bullet00.png|0.5,0.5
+bullet01=images/bullet/bullet01.png|0.5,0.5
+bullet10=images/bullet/bullet30.png|0.5,0.5
+bullet11=images/bullet/bullet31.png|0.5,0.5
 
 enemy_attackL000=images/enemy/L/enemy_attack000.png|1,1
 enemy_attackL001=images/enemy/L/enemy_attack001.png|1,1
@@ -418,3 +408,23 @@ boss12=images/boss/D_boss (13).png|0.5,1
 boss13=images/boss/D_boss (14).png|0.5,1
 boss14=images/boss/D_boss (15).png|0.5,1
 boss15=images/boss/D_boss (16).png|0.5,1
+
+gift=images/bullet/gift2.png|0.5,0.5
+
+boom0=images/boom/bomb_bang0.png|0.5,1
+boom1=images/boom/bomb_bang1.png|0.5,1
+boom2=images/boom/bomb_bang2.png|0.5,1
+boom3=images/boom/bomb_bang3.png|0.5,1
+boom4=images/boom/bomb_bang4.png|0.5,1
+boom5=images/boom/bomb_bang5.png|0.5,1
+boom6=images/boom/bomb_bang6.png|0.5,1
+boom7=images/boom/bomb_bang7.png|0.5,1
+boom8=images/boom/bomb_bang8.png|0.5,1
+boom9=images/boom/bomb_bang9.png|0.5,1
+boom10=images/boom/bomb_bang10.png|0.5,1
+boom11=images/boom/bomb_bang11.png|0.5,1
+boom12=images/boom/bomb_bang12.png|0.5,1
+boom13=images/boom/bomb_bang13.png|0.5,1
+boom14=images/boom/bomb_bang14.png|0.5,1
+boom15=images/boom/bomb_bang15.png|0.5,1
+boom16=images/boom/bomb_bang16.png|0.5,1

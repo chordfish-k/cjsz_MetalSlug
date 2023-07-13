@@ -65,6 +65,7 @@ public class GameMainJPanel extends JPanel implements Runnable{
                     continue;
                 }
 
+                em.setLocked(true);
                 List<ElementObj> list = all.get(type);
                 for (ElementObj obj : list) {
                     // 先调用该元素的onDraw
@@ -80,8 +81,9 @@ public class GameMainJPanel extends JPanel implements Runnable{
                         cp.onDraw(g);
                     }
                 }
+                em.setLocked(false);
             }
-        } catch (ConcurrentModificationException e) {
+        } catch (Exception e) {
 //            e.printStackTrace();
         }
 

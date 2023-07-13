@@ -19,22 +19,25 @@ import java.awt.*;
  * 子弹类
  */
 public class Bullet extends ElementObj {
+    private long localTime = 0;
+    private float dt = 0f;
+
     private int damage; // 攻击力
     private int speed; // 移速
     private Direction facing; //朝向
     private int radius = 10; // 子弹半径
     private boolean shouldDie = false;
     private String by = "";
+    private int type = 0; //0普通子弹，1榴弹
 
-    BoxCollider col = null;
+    BoxCollider bc = null;
     RigidBody rb = null;
     Sprite sp = null;
 
     public Bullet() {
-        col = (BoxCollider) addComponent(
-                "BoxCollider",
-                "shape:Rectangle,offX:10,w:"+2 * radius +",h:"+2 * radius);
-        col.setTrigger(true);
+        bc = (BoxCollider) addComponent(
+                "BoxCollider");
+        bc.setTrigger(true);
         rb = (RigidBody) addComponent("RigidBody");
         sp = (Sprite) addComponent("Sprite");
     }
@@ -65,17 +68,28 @@ public class Bullet extends ElementObj {
                 case "speed":
                     this.speed = Integer.parseInt(kv[1]);
                     break;
+                case "type":
+                    this.type = Integer.parseInt(kv[1]);
+                    break;
             }
         }
 
         this.transform.setPos(new Vector2(x, y));
         this.speed = 50;
-        this.damage = 1;
         this.radius = 5;
-        col.setSize(new Vector2(2*radius, 2*radius));
+
 
         int dir = this.facing == Direction.LEFT ? 0 : 1;
-        sp.setSprite(GameLoad.imgMap.get("bullet0"+dir));
+
+        sp.setSprite(GameLoad.imgMap.get("bullet"+type+dir));
+        if (type == 0) {
+            bc.setSize(new Vector2(2*radius, 2*radius));
+            this.damage = 1;
+        }
+        else if (type == 1) {
+            bc.setSize(new Vector2(80, 20));
+            this.damage = 4;
+        }
 
         ElementManager.eleRoot.addChild(this);
         return this;
@@ -87,11 +101,16 @@ public class Bullet extends ElementObj {
         // 设置rb的速度
         Vector2 spd = new Vector2();
         switch (this.facing) {
-            case UP: spd.y = -speed; break;
-            case DOWN: spd.y = speed; break;
             case LEFT: spd.x = -speed; break;
             case RIGHT: spd.x = speed; break;
         }
+
+//        if (type == 1) {
+//            this.transform.setRotate(-45 * Direction.getHorizontalSign(facing));
+//            spd.y = -speed;
+//            rb.setForce(new Vector2(0, 20));
+//        }
+
         this.rb.setVelocity(spd);
     }
 
@@ -104,8 +123,22 @@ public class Bullet extends ElementObj {
     @Override
     public void onUpdate(long time) {
         super.onUpdate(time);
+
+        if (localTime == 0) localTime = time;
+        dt = (time - localTime) * 0.1f;
+
         checkDead();
+        changeAngle(dt);
+
         if (shouldDie) destroy();
+
+        localTime = time;
+    }
+
+    private void changeAngle(float dt) {
+//        if (type != 1) return;
+//        this.transform.setRotate(this.transform.getRotate() + 20 * dt * Direction.getHorizontalSign(facing));
+
     }
 
 
@@ -115,13 +148,22 @@ public class Bullet extends ElementObj {
         Vector2 pos = calcAbsolutePos();
         float x = pos.x;
         float y = pos.y;
-        if (x < 0 || y < 0 || x > GameJFrame.SIZE_W || y > GameJFrame.SIZE_H) {
+        if (x < 0 || y < 0 || x > GameJFrame.SIZE_W || y > GameJFrame.SIZE_H - 80) {
             destroy();
         }
     }
 
     @Override
     public void onDestroy() {
+        if (type == 1) {
+            // 产生爆炸
+            Vector2 v = transform.getPos();
+            int x = (int) v.x;
+            int y = 550;
+            ElementObj obj = GameLoad.createElementByName("boom", x+","+y);
+            ElementManager.getManager().addElement(obj, ElementType.BOOM);
+            ElementManager.eleRoot.addChild(obj);
+        }
     }
 
     @Override
