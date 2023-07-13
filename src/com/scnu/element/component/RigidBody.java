@@ -206,8 +206,10 @@ public class RigidBody extends ComponentBase{
             } else {
                 // 处理碰撞
                 for (BoxCollider b : collObj) {
-                    b.onCollision(parent);
-                    bc.onCollision(b.parent);
+                    if (b.isActive() && bc.isActive()) {
+                        b.onCollision(parent);
+                        bc.onCollision(b.parent);
+                    }
                 }
             }
 
