@@ -11,20 +11,20 @@ import com.tedu.manager.GameLoad;
 import com.tedu.show.GameJFrame;
 
 public class Enemy extends ElementObj {
-    private String fx = "up";//Ì¹¿ËÄ¬ÈÏ³¯Ïò
-    private int moveSpeed = 2;    //Ì¹¿ËÒÆËÙ
-    private int hp = 1; //Ì¹¿ËÑªÁ¿
-    private int bulletNum = 1;//Ì¹¿Ë×Óµ¯Êý
-    private int bulletTime = 100; //Ì¹¿Ë·¢Éä×Óµ¯¼ä¸ô
-    private boolean left = false; //×ó
-    private boolean up = true;   //ÉÏ
-    private boolean right = false;//ÓÒ
-    private boolean down = false; //ÏÂ
+    private String fx = "up";//Ì¹ï¿½ï¿½Ä¬ï¿½Ï³ï¿½ï¿½ï¿½
+    private int moveSpeed = 2;    //Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private int hp = 1; //Ì¹ï¿½ï¿½Ñªï¿½ï¿½
+    private int bulletNum = 1;//Ì¹ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½
+    private int bulletTime = 100; //Ì¹ï¿½Ë·ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½
+    private boolean left = false; //ï¿½ï¿½
+    private boolean up = true;
+    private boolean right = false;//ï¿½ï¿½
+    private boolean down = false; //ï¿½ï¿½
 
     private String mapId;
 
     public Enemy() {
-        //¸Ã·½·¨²»±»Ê¹ÓÃ£¬Ð´³öÀ´£¬·ÀÖ¹¼Ì³Ð³ö´í
+        //ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã£ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½Ì³Ð³ï¿½ï¿½ï¿½
     }
 
     public Enemy(int x, int y, int w, int h, ImageIcon icon) {
@@ -64,7 +64,7 @@ public class Enemy extends ElementObj {
             this.setY(this.getY() - moveSpeed);
             move = true;
         }
-        if (this.right && this.getX() < GameJFrame.getGameX() - 20 - this.getW()) {  //×ø±êµÄÌø×ªÓÉ´ó¼ÒÀ´Íê³É
+        if (this.right && this.getX() < GameJFrame.getGameX() - 20 - this.getW()) {  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½É´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             this.setX(this.getX() + moveSpeed);
             move = true;
         }
@@ -78,7 +78,7 @@ public class Enemy extends ElementObj {
     }
 
     /**
-     * @ËµÃ÷£ºÌ¹¿Ë¸Ä±ä·½Ïò
+     * @Ëµï¿½ï¿½ï¿½ï¿½Ì¹ï¿½Ë¸Ä±ä·½ï¿½ï¿½
      */
     private void changeFx() {
         String tempFx = this.fx;
@@ -178,7 +178,7 @@ public class Enemy extends ElementObj {
         return false;
     }
 
-    public void goBack() {//ÓöÕÏºóµ÷×ª·½Ïò
+    public void goBack() {//ï¿½ï¿½ï¿½Ïºï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½
         switch (this.fx) {
             case "left":
                 this.setX(this.getX() + moveSpeed);
