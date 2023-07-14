@@ -139,6 +139,7 @@ public class GameThread extends Thread {
                 levelNum = 1;
             }
         }
+        GameLoad.stopMusic();
         em.clearAll();
     }
 

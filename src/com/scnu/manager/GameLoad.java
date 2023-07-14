@@ -17,8 +17,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * 加载器，读取配置文件的工具类
@@ -75,29 +75,28 @@ public class GameLoad {
             while (names.hasMoreElements()) {
                 String key = names.nextElement().toString();
                 String[] arrs = pro.getProperty(key).split(";");
-                if (key.equals("ENEMY")) {
-                    for (String arr : arrs) {
-                        ElementObj enemy = createElementByName("enemy", arr + "," + "left");
-                        em.addElement(enemy, ElementType.ENEMY);
-                        ElementManager.eleRoot.addChild(enemy);
-                    }
-                    continue;
-                }
-                else if (key.equals("HOSTAGE")) {
-                    for (String arr : arrs) {
-                        ElementObj hostage = createElementByName("hostage", arr);
-                        em.addElement(hostage, ElementType.HOSTAGE);
-                        ElementManager.eleRoot.addChild(hostage);
-                    }
-                    continue;
-                }
-                else if (key.equals("BOSS")) {
-                    for (String arr : arrs) {
-                        ElementObj enemy = createElementByName("boss", arr);
-                        em.addElement(enemy, ElementType.BOSS);
-                        ElementManager.eleRoot.addChild(enemy);
-                    }
-                    continue;
+                switch (key) {
+                    case "ENEMY":
+                        for (String arr : arrs) {
+                            ElementObj enemy = createElementByName("enemy", arr + "," + "left");
+                            em.addElement(enemy, ElementType.ENEMY);
+                            ElementManager.eleRoot.addChild(enemy);
+                        }
+                        continue;
+                    case "HOSTAGE":
+                        for (String arr : arrs) {
+                            ElementObj hostage = createElementByName("hostage", arr);
+                            em.addElement(hostage, ElementType.HOSTAGE);
+                            ElementManager.eleRoot.addChild(hostage);
+                        }
+                        continue;
+                    case "BOSS":
+                        for (String arr : arrs) {
+                            ElementObj enemy = createElementByName("boss", arr);
+                            em.addElement(enemy, ElementType.BOSS);
+                            ElementManager.eleRoot.addChild(enemy);
+                        }
+                        continue;
                 }
             }
         } catch (IOException e) {
@@ -312,6 +311,11 @@ public class GameLoad {
         if (clip != null) {
             clip.setFramePosition(0); // 从音频的开头开始播放
             clip.loop(Clip.LOOP_CONTINUOUSLY); // 循环播放音频
+        }
+    }
+    public static void stopMusic() {
+        if (clip != null) {
+            clip.stop();
         }
     }
 }
