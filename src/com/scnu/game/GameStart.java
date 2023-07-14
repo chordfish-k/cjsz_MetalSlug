@@ -5,6 +5,8 @@ import com.scnu.controller.GameThread;
 import com.scnu.show.GameJFrame;
 import com.scnu.show.GameMainJPanel;
 
+import java.awt.*;
+
 /**
  * 游戏入口类
  */
@@ -29,6 +31,9 @@ public class GameStart {
         gj.setKeyListener(listener);
         gj.setThread(thread);
 
+        // 设置图标
+        Image icon = Toolkit.getDefaultToolkit().getImage("images/logo/Metal Slug RELOAD 128.png");
+        gj.setIconImage(icon);
 
         gj.start(); // 显示窗体
     }
