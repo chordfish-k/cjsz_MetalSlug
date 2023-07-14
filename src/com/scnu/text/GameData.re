@@ -1,5 +1,5 @@
 background1=images/background/backimage1.gif
-background2=images/background/backimage.jpg
+background2=images/background/backimage.gif
 
 attack000=images/plays/attack000.png
 attack001=images/plays/attack001.png
