@@ -31,9 +31,6 @@ public class GameStart {
         gj.setKeyListener(listener);
         gj.setThread(thread);
 
-        // 设置图标
-        Image icon = Toolkit.getDefaultToolkit().getImage("images/logo/Metal Slug RELOAD 128.png");
-        gj.setIconImage(icon);
 
         gj.start(); // 显示窗体
     }
