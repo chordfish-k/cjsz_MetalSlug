@@ -39,6 +39,7 @@ public class GameLoad {
     // 碰撞检查集合
     public static Map<ElementType, List<ElementType>> colMap = new HashMap<>();
 
+
     //音乐
     private static Clip clip;
 
@@ -98,10 +99,6 @@ public class GameLoad {
                     }
                     continue;
                 }
-//                for (String arr : arrs) {
-//                    ElementObj element = new MapObj().create(key + "," + arr);
-//                    em.addElement(element, ElementType.MAP);
-//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,22 +106,22 @@ public class GameLoad {
         pro.clear();
 
         //创建地图边界
-//        int barrierWidth = 10;
-//        int offsetH = -40;
-//        int offsetW = -10;
-//        BarrierObj left  = new BarrierObj().setRect(
-//                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
-//        BarrierObj right = new BarrierObj().setRect(
-//                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
-//        BarrierObj up    = new BarrierObj().setRect(
-//                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
-//        BarrierObj down  = new BarrierObj().setRect(
-//                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
-//
-//        em.addElement(left,ElementType.MAP);
-//        em.addElement(right,ElementType.MAP);
-//        em.addElement(up,ElementType.MAP);
-//        em.addElement(down,ElementType.MAP);
+        int barrierWidth = 10;
+        int offsetH = -40;
+        int offsetW = -10;
+        BarrierObj left  = new BarrierObj().setRect(
+                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
+        BarrierObj right = new BarrierObj().setRect(
+                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
+        BarrierObj up    = new BarrierObj().setRect(
+                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
+        BarrierObj down  = new BarrierObj().setRect(
+                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
+
+        em.addElement(left,ElementType.MAP);
+        em.addElement(right,ElementType.MAP);
+        em.addElement(up,ElementType.MAP);
+        em.addElement(down,ElementType.MAP);
     }
 
     /**

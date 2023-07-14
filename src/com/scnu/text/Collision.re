@@ -1,8 +1,9 @@
-player=e_bullet,gift
-enemy=p_bullet,boom
+player=e_bullet,gift,map
+enemy=p_bullet,boom,map
 hostage=p_bullet
-boss=p_bullet,boom
-p_bullet=enemy,hostage,boss
-e_bullet=player
+boss=p_bullet,boom,map
+p_bullet=enemy,hostage,boss,map
+e_bullet=player,map
 gift=player
 boom=enemy,boss
+map=player,enemy,boss,p_bullet,e_bullet

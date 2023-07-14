@@ -192,7 +192,8 @@ public class RigidBody extends ComponentBase{
                 for (BoxCollider b : collObj) {
                     if (b.isActive() && bc.isActive()) {
                         //b.onCollision(parent);
-                        if (((RigidBody)b.getParent().getComponent("RigidBody")).getVelocity().equal(Vector2.ZERO))
+                        RigidBody rb = ((RigidBody)b.getParent().getComponent("RigidBody"));
+                        if (rb != null && rb.getVelocity().equal(Vector2.ZERO))
                             b.onCollision(parent);
                         bc.getParent().onCollision(b.parent);
                     }

@@ -67,6 +67,21 @@ public class Enemy extends ElementObj {
 
         sp.setSprite(GameLoad.imgMap.get("enemy_standL000"));
         hv.setMaxHealth(2,true);
+        hv.setOnHealthChangeEvent(new Runnable() {
+            @Override
+            public void run() {
+                if (hv.getChangeNum() < 0) {
+                    // 如果受伤，立即锁定玩家
+                    if (playerList.size() > 0) {
+                        Hero player = (Hero) playerList.get(0);
+                        // 发现未蹲下的玩家，并将玩家设为目标
+                        attackTarget = player.transform;
+                        switchCounter = 0;
+                        isTracing = false;
+                    }
+                }
+            }
+        });
 
         requireAnimations();
     }
@@ -100,14 +115,14 @@ public class Enemy extends ElementObj {
         super.onDraw(g);
         sp.draw(g);
 
-        g.setColor(Color.RED);
-        Vector2 p = calcAbsolutePos().clone();
-        Vector2 t = p.clone();
-        if (this.facing == Direction.LEFT)
-            p.x -= sightRange;
-        else
-            p.x += sightRange;
-        g.drawLine((int)t.x, (int)t.y, (int)p.x, (int)p.y);
+//        g.setColor(Color.RED);
+//        Vector2 p = calcAbsolutePos().clone();
+//        Vector2 t = p.clone();
+//        if (this.facing == Direction.LEFT)
+//            p.x -= sightRange;
+//        else
+//            p.x += sightRange;
+//        g.drawLine((int)t.x, (int)t.y, (int)p.x, (int)p.y);
     }
 
     @Override
@@ -216,11 +231,14 @@ public class Enemy extends ElementObj {
 
             Vector2 pos = playerList.get(0).transform.getPos();
 
-            if (pos.x >= rangeMin && pos.y <= rangeMax) {
-                // 发现玩家，并将玩家设为目标
-                attackTarget = playerList.get(0).transform;
-                switchCounter = 0;
-                isTracing = false;
+            if (pos.x >= rangeMin && pos.y <= rangeMax && playerList.size() > 0) {
+                Hero player = (Hero) playerList.get(0);
+                if (!player.isSquatting()) {
+                    // 发现未蹲下的玩家，并将玩家设为目标
+                    attackTarget = player.transform;
+                    switchCounter = 0;
+                    isTracing = false;
+                }
             }
         }
         else {

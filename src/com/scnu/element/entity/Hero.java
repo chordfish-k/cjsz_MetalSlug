@@ -10,15 +10,18 @@ import com.scnu.element.bullet.Bullet;
 import com.scnu.element.component.BoxCollider;
 import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
+import com.scnu.game.Game;
 import com.scnu.geometry.Vector2;
 import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
 import com.scnu.manager.GameLoad;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Map;
 
 public class Hero extends ElementObj {
+    private ElementManager em = ElementManager.getManager();
     // 按键
     private final int K_LEFT = KeyEvent.VK_A;
     private final int K_RIGHT = KeyEvent.VK_D;
@@ -36,6 +39,7 @@ public class Hero extends ElementObj {
     private int dt = 0;
 
     private float speed = 50;
+    private float squatSpeed = 30;
     private boolean isMoving = false;
     private boolean isSquatting = false;
     private boolean isAttacking = false;
@@ -183,6 +187,8 @@ public class Hero extends ElementObj {
         adjustChildPos();
         changeSprite(time);
 
+        checkNextLevel();
+
         localTime = time;
     }
 
@@ -257,8 +263,8 @@ public class Hero extends ElementObj {
     }
 
     private void adjustChildPos() {
-        boxCollider.setSize(new Vector2(30, 55));
-        boxCollider.setOffset(new Vector2(0, 0));
+//        boxCollider.setSize(new Vector2(30, 55));
+//        boxCollider.setOffset(new Vector2(0, 0));
 
         if (facing == Direction.RIGHT) {
             if(!isSquatting) {
@@ -275,8 +281,8 @@ public class Hero extends ElementObj {
                 heroDown.transform.setPos(dirOffset[4]);
                 heroUp.transform.setPos(dirOffset[5]);
 
-                boxCollider.setSize(new Vector2(30, 30));
-                boxCollider.setOffset(new Vector2(0, 15));
+//                boxCollider.setSize(new Vector2(30, 30));
+//                boxCollider.setOffset(new Vector2(0, 15));
             }
         }
         else if (facing == Direction.LEFT) {
@@ -294,8 +300,8 @@ public class Hero extends ElementObj {
                 heroDown.transform.setPos(dirOffset[6]);
                 heroUp.transform.setPos(dirOffset[7]);
 
-                boxCollider.setSize(new Vector2(30, 30));
-                boxCollider.setOffset(new Vector2(0, 15));
+//                boxCollider.setSize(new Vector2(30, 30));
+//                boxCollider.setOffset(new Vector2(0, 15));
             }
         }
     }
@@ -304,6 +310,7 @@ public class Hero extends ElementObj {
         isMoving = true;
         isSquatting = keyOn[K_SQUAT];
 
+        float speed = isSquatting ? this.squatSpeed : this.speed;
         if (keyOn[KeyEvent.VK_D]) {
             vel.x = speed;
             this.facing = Direction.RIGHT;
@@ -367,4 +374,24 @@ public class Hero extends ElementObj {
                 .text = "bullet num: "+bullet1Num;
     }
 
+
+    public void checkNextLevel() {
+        int mapW = (int) Game.getInstance().getMapSize().x;
+        int relX = (int) transform.getX();
+        if (relX + 100 > mapW && (
+                em.getElementsByType(ElementType.ENEMY).size() == 0
+                || em.getElementsByType(ElementType.BOSS).size() == 0)) {
+            Game.getInstance().finishGameRun();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Game.getInstance().finishGameRun();
+    }
+
+    public boolean isSquatting() {
+        return isSquatting;
+    }
 }
