@@ -1,6 +1,9 @@
 package com.scnu.element.component;
 
 import com.scnu.element.ElementObj;
+import com.scnu.element.entity.Enemy;
+import com.scnu.element.entity.Gift;
+import com.scnu.element.entity.Hostage;
 import com.scnu.geometry.Polygon;
 import com.scnu.geometry.Vector2;
 import com.scnu.manager.ElementManager;
@@ -73,19 +76,11 @@ public class RigidBody extends ComponentBase{
             // 将速度应用与Transform
 
             Vector2 d = this.velocity.add(vel).mul(delta * 0.5f);
-            if (Math.abs(vel.x) > Float.MIN_VALUE || Math.abs(vel.y) > Float.MIN_VALUE) {
+//            if (Math.abs(vel.x) > Float.MIN_VALUE || Math.abs(vel.y) > Float.MIN_VALUE) {
                 if (bc != null)
                     d = testLinear(d, delta);
                 tr.setPos(tr.getPos().add(d));
-            }
-
-//            // 求角力
-//            float af = bc.getShape().calcAngularForce();
-//            float newAngVel = angVel + af * delta;
-//            // 测试碰撞
-//            float dAng = newAngVel - bc.getRotation();
-//            dAng = testAngular(dAng, delta);
-//            tr.setRotate(bc.getRotation() + dAng);
+//            }
 
             this.velocity = vel;
         }
@@ -123,11 +118,7 @@ public class RigidBody extends ComponentBase{
 
 
     private Vector2 testLinear(Vector2 d, float delta) {
-
         Vector2 dvel = d.clone();
-        if (dvel.equal(new Vector2(0, 0))) {
-            return d;
-        }
 
         boolean flag = true;
 
@@ -155,6 +146,8 @@ public class RigidBody extends ComponentBase{
             List<BoxCollider> collObj = new ArrayList<>();
 
             for (ElementType type : em.getGameElements().keySet()) {
+                if (type == parent.getElementType())
+                    continue;
 
                 em.setLocked(true);
 
@@ -182,34 +175,34 @@ public class RigidBody extends ComponentBase{
 
                     if (boxCollider.getShape().testPolygon(shape_)) {
                         innerFlag = false;
-//                        System.out.println(obj.getClass().getName() + " coll");
-
-                        // 调用碰撞器组件的onCollision()方法
-//                        bc.onCollision(obj);
-//                        boxCollider.onCollision(parent);
 
                         collObj.add(boxCollider);
 
                     }
-                    //if (!innerFlag) break;
                 }
-
-
                 em.setLocked(false);
-
-                //if (!innerFlag) break;
             }
 
             // 无任何碰撞
             if (innerFlag) {
                 flag = false;
+
             } else {
                 // 处理碰撞
                 for (BoxCollider b : collObj) {
-                    b.onCollision(parent);
-                    bc.onCollision(b.parent);
+                    if (b.isActive() && bc.isActive()) {
+                        //b.onCollision(parent);
+                        RigidBody rb = ((RigidBody)b.getParent().getComponent("RigidBody"));
+                        if (rb != null && rb.getVelocity().equal(Vector2.ZERO))
+                            b.onCollision(parent);
+                        bc.getParent().onCollision(b.parent);
+                    }
                 }
             }
+
+//            if (dvel.equal(new Vector2(0, 0))) {
+//                return dvel;
+//            }
 
             // 如果该碰撞器仅仅用作触发，则不处理位移
             if (bc.isTrigger()) {

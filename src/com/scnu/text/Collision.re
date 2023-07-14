@@ -1,4 +1,9 @@
-player=map,bullet
-map=player,enemy,bullet
-enemy=map,bullet
-bullet=enemy,player,map
+player=e_bullet,gift,map
+enemy=p_bullet,boom,map
+hostage=p_bullet
+boss=p_bullet,boom,map
+p_bullet=enemy,hostage,boss,map
+e_bullet=player,map
+gift=player
+boom=enemy,boss
+map=player,enemy,boss,p_bullet,e_bullet

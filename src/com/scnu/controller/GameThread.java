@@ -2,13 +2,11 @@ package com.scnu.controller;
 
 import com.scnu.element.ElementObj;
 import com.scnu.element.ElementState;
-
-import com.scnu.element.component.HealthValue;
 import com.scnu.element.component.RigidBody;
+import com.scnu.game.Game;
 import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
 import com.scnu.manager.GameLoad;
-import com.scnu.manager.UIManager;
 
 import javax.swing.*;
 import java.util.List;
@@ -22,12 +20,11 @@ import java.util.Map;
  */
 public class GameThread extends Thread {
 
+
+
     private final ElementManager em;
-    private final UIManager um;
     private int gameRunFrameSleep = 16; // 1000 / 16 =  60Hz
     private long gameTime = 0L; // 帧计时器
-
-    private PhysicsThread physicTh = null;
 
     private boolean isThreadRunning = true; // 主进程是否继续
     private boolean isRunning = false; // 游戏是否继续
@@ -37,11 +34,11 @@ public class GameThread extends Thread {
 
     public GameThread() {
         em = ElementManager.getManager();
-        um = UIManager.getManager();
     }
 
     @Override
     public void run() { // 游戏主线程
+        gameReadResources();
         while (isThreadRunning) {
             // 游戏开始前：读进度条，加载游戏资源
             gameLoad();
@@ -58,6 +55,13 @@ public class GameThread extends Thread {
         }
     }
 
+    private void gameReadResources() {
+        GameLoad.loadImage();
+        GameLoad.loadAnim();
+        GameLoad.loadElement();
+        GameLoad.loadCollision();
+    }
+
     /**
      * 执行游戏的加载
      * 1.资源文件
@@ -67,30 +71,26 @@ public class GameThread extends Thread {
      */
     private void gameLoad() {
 
-
-        GameLoad.loadImage();
-        GameLoad.loadAnim();
-        GameLoad.loadElement();
         GameLoad.loadRoot();
         GameLoad.loadBackground();
         GameLoad.LoadMap(this.levelNum);
-        //GameLoad.LoadMap(this.levelNum);
-        GameLoad.loadMusic("music/music (13).wav");
+        if (levelNum == 1){
+            GameLoad.loadMusic("music/reload.wav");
+        }
+        else if (levelNum == 2){
+            GameLoad.loadMusic("music/mass.wav");
+        }
         GameLoad.playMusic();
         GameLoad.loadPlayer();
 
-        GameLoad.loadCollision();
+        GameLoad.loadUI();
 
         callOnLoad();
-
-//        physicTh = new PhysicsThread();
-//        physicTh.start();
 
         isRunning = true;
         isWon = false;
         gameTime = 0;
 
-        ((JLabel)um.getUI("settlementLabel")).setText("");
     }
 
     /**
@@ -129,33 +129,22 @@ public class GameThread extends Thread {
      * 游戏场景结束
      */
     private void gameOver() {
-        // 先进入结算5秒
-        if (isWon) {
-            // 赢了5秒后进入下一关
-            if (levelNum < 2){
-                levelNum ++;
+
+        if (em.getElementsByType(ElementType.ENEMY).size() > 0 || em.getElementsByType(ElementType.BOSS).size() > 0) {
+            JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "游戏结束，任务失败");
+        }
+        else {
+            if (levelNum < 2) {
+                levelNum++;
+                JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "进入下一关");
             }
             else {
-                this.isThreadRunning = false;
+                JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "游戏结束，任务成功");
+                levelNum = 1;
             }
-            HealthValue hv = (HealthValue) em.getElementsByType(ElementType.PLAYER).get(0).getComponent("HealthValue");
-            int score = hv.getHealth();
-            sumScore += score;
-            ((JLabel)um.getUI("settlementLabel")).setText("your score: "+sumScore+" (+"+score+")");
-
-        } else {
-            this.isThreadRunning = false;
-            // 输了5秒后退出
-            ((JLabel)um.getUI("settlementLabel")).setText("your score: "+sumScore);
         }
-
-        em.cleanAll();
-
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        GameLoad.stopMusic();
+        em.clearAll();
     }
 
     public void finishGameRun() {
@@ -184,6 +173,10 @@ public class GameThread extends Thread {
     public GameThread setGameRunFrameSleep(int duration) {
         this.gameRunFrameSleep = duration;
         return this;
+    }
+
+    public int getLevelNum() {
+        return this.levelNum;
     }
 
     /**
@@ -224,13 +217,11 @@ public class GameThread extends Thread {
      */
     public void testElementsCollision(List<ElementObj> listA, List<ElementObj> listB) {
 
-        for (int i=0; i<listA.size(); i++) {
-            for (int j=0; j<listB.size(); j++) {
-                ElementObj a = listA.get(i);
-                ElementObj b = listB.get(j);
-                if (a.checkCollisionWith(b)) {
-                    a.onCollision(b);
-                    b.onCollision(a);
+        for (ElementObj elementObj : listA) {
+            for (ElementObj obj : listB) {
+                if (elementObj.checkCollisionWith(obj)) {
+                    elementObj.onCollision(obj);
+                    obj.onCollision(elementObj);
                     break;
                 }
             }

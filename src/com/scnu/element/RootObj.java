@@ -3,8 +3,10 @@ package com.scnu.element;
 import com.scnu.element.component.RigidBody;
 import com.scnu.element.component.Transform;
 import com.scnu.element.entity.Hero;
+import com.scnu.game.Game;
 import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
+import com.scnu.manager.GameLoad;
 import com.scnu.show.GameJFrame;
 
 import java.awt.*;
@@ -48,10 +50,19 @@ public class RootObj extends ElementObj{
         int heroX = (int)hero.calcAbsolutePos().x;
         int rootX = (int)transform.getX();
 
-        if (heroX > halfW + halfR || heroX < halfW - halfR) {
+        if (lastHeroX == 0) {
+            lastHeroX = heroX;
+            return;
+        }
+
+        int dx = (int)(heroX - lastHeroX);
+
+        int nextX = heroX + dx;
+        if ((nextX > halfW + halfR && dx > 0|| nextX < halfW - halfR && dx < 0)
+            && ((rootX - dx + (int) Game.getInstance().getMapSize().x) >=  GameJFrame.SIZE_W
+                && rootX-dx <= 0)) {
             // 跟随
-            int dx = (int)(heroX - lastHeroX);
-            transform.setX(transform.getX() - dx);
+            transform.setX(rootX - dx);
         }
         else {
             lastHeroX = heroX;

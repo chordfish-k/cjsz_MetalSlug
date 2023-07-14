@@ -4,11 +4,9 @@ import com.scnu.element.ElementObj;
 import com.scnu.element.component.ComponentBase;
 import com.scnu.manager.ElementManager;
 import com.scnu.manager.ElementType;
-import com.scnu.manager.UIManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +19,6 @@ import java.util.Map;
 public class GameMainJPanel extends JPanel implements Runnable{
     // 联动管理器
     private ElementManager em;
-    private UIManager um;
     // 刷新间隔
     private int refreshSleep = 15;
 
@@ -31,25 +28,8 @@ public class GameMainJPanel extends JPanel implements Runnable{
 
     public void init() {
         em = ElementManager.getManager();
-        um = UIManager.getManager();
 
         this.setLayout(null);
-
-        // 生命值
-        JLabel healthLab = new JLabel();this.add(healthLab);
-        healthLab.setText("Health:2");
-        healthLab.setBounds(5,GameJFrame.SIZE_H-50,100,GameJFrame.INFO_H);
-        um.addUI("healthLabel", healthLab);
-
-        // 统计数据
-        JLabel settlement = new JLabel();this.add(settlement);
-//        settlement.setText("good");
-        settlement.setBounds(
-                GameJFrame.SIZE_W/2-100/2 - 50,
-                GameJFrame.SIZE_H/2-GameJFrame.INFO_H-50,
-                150,GameJFrame.INFO_H * 4);
-
-        um.addUI("settlementLabel", settlement);
     }
 
 
@@ -65,6 +45,7 @@ public class GameMainJPanel extends JPanel implements Runnable{
                     continue;
                 }
 
+                em.setLocked(true);
                 List<ElementObj> list = all.get(type);
                 for (ElementObj obj : list) {
                     // 先调用该元素的onDraw
@@ -80,8 +61,9 @@ public class GameMainJPanel extends JPanel implements Runnable{
                         cp.onDraw(g);
                     }
                 }
+                em.setLocked(false);
             }
-        } catch (ConcurrentModificationException e) {
+        } catch (Exception e) {
 //            e.printStackTrace();
         }
 

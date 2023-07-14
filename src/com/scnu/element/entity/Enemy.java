@@ -12,7 +12,6 @@ import com.scnu.manager.GameLoad;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public class Enemy extends ElementObj {
@@ -25,7 +24,9 @@ public class Enemy extends ElementObj {
 
     private Direction facing = Direction.LEFT;
     private Vector2 vel = Vector2.ZERO;
+
     private int sightRange = 300; // 检测该范围内的玩家
+    private int reachRange = 450; // 玩家离开攻击范围后会进行追逐的范围
     private int walkRange = 50; // 在这个范围内巡逻
 
     // 巡逻参数
@@ -42,10 +43,12 @@ public class Enemy extends ElementObj {
     // 状态
     private boolean isRunning = false;
     private boolean isAttacking = false;
+    private boolean isTracing = false;
 
     private Transform attackTarget = null;
 
     private int speed = 20;
+    private int runSpeed = 30;
 
     // 组件
     Sprite sp = null;
@@ -64,6 +67,21 @@ public class Enemy extends ElementObj {
 
         sp.setSprite(GameLoad.imgMap.get("enemy_standL000"));
         hv.setMaxHealth(2,true);
+        hv.setOnHealthChangeEvent(new Runnable() {
+            @Override
+            public void run() {
+                if (hv.getChangeNum() < 0) {
+                    // 如果受伤，立即锁定玩家
+                    if (playerList.size() > 0) {
+                        Hero player = (Hero) playerList.get(0);
+                        // 发现未蹲下的玩家，并将玩家设为目标
+                        attackTarget = player.transform;
+                        switchCounter = 0;
+                        isTracing = false;
+                    }
+                }
+            }
+        });
 
         requireAnimations();
     }
@@ -97,14 +115,14 @@ public class Enemy extends ElementObj {
         super.onDraw(g);
         sp.draw(g);
 
-        g.setColor(Color.RED);
-        Vector2 p = calcAbsolutePos().clone();
-        Vector2 t = p.clone();
-        if (this.facing == Direction.LEFT)
-            p.x -= sightRange;
-        else
-            p.x += sightRange;
-        g.drawLine((int)t.x, (int)t.y, (int)p.x, (int)p.y);
+//        g.setColor(Color.RED);
+//        Vector2 p = calcAbsolutePos().clone();
+//        Vector2 t = p.clone();
+//        if (this.facing == Direction.LEFT)
+//            p.x -= sightRange;
+//        else
+//            p.x += sightRange;
+//        g.drawLine((int)t.x, (int)t.y, (int)p.x, (int)p.y);
     }
 
     @Override
@@ -164,33 +182,39 @@ public class Enemy extends ElementObj {
     private void ai(long time) {
         Vector2 ePos = transform.getPos();
         if (attackTarget == null) {
-            // 四处巡逻
-            if (time - lastRanTime > ranSpan) {
-                lastRanTime = time;
+            if (!isTracing) {
+                // 四处巡逻
+                if (time - lastRanTime > ranSpan) {
+                    lastRanTime = time;
 
-                int r = ran.nextInt(100);
-                // 移动
-                if (r < 10) { // 转向
-                    this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
-                    vel.x = -vel.x;
-                }
-                else if (r < 60){
-                    if (ePos.x > originalX - walkRange && this.facing == Direction.LEFT ||
-                            ePos.x < originalX + walkRange && this.facing == Direction.RIGHT) {
-                        isRunning = true;
-                        vel.x = speed * (this.facing == Direction.LEFT ? -1 : 1);
+                    int r = ran.nextInt(100);
+                    // 移动
+                    if (r < 10) { // 转向
+                        this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+                        vel.x = -vel.x;
+                    }
+                    else if (r < 60){
+                        if (ePos.x > originalX - walkRange && this.facing == Direction.LEFT ||
+                                ePos.x < originalX + walkRange && this.facing == Direction.RIGHT) {
+                            isRunning = true;
+                            vel.x = speed * (this.facing == Direction.LEFT ? -1 : 1);
+                        }
+                        else {
+                            isRunning = false;
+                            vel.x = 0;
+                            this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
+                        }
+
                     }
                     else {
                         isRunning = false;
                         vel.x = 0;
-                        this.facing = this.facing == Direction.RIGHT ? Direction.LEFT : Direction.RIGHT;
                     }
-
                 }
-                else {
-                    isRunning = false;
-                    vel.x = 0;
-                }
+            }
+            else {
+                isRunning = true;
+                vel.x = runSpeed * (this.facing == Direction.LEFT ? -1 : 1);
             }
 
             // 检测玩家
@@ -207,11 +231,14 @@ public class Enemy extends ElementObj {
 
             Vector2 pos = playerList.get(0).transform.getPos();
 
-            if (pos.x >= rangeMin && pos.y <= rangeMax) {
-                // 发现玩家，并将玩家设为目标
-                attackTarget = playerList.get(0).transform;
-                switchCounter = 0;
-
+            if (pos.x >= rangeMin && pos.y <= rangeMax && playerList.size() > 0) {
+                Hero player = (Hero) playerList.get(0);
+                if (!player.isSquatting()) {
+                    // 发现未蹲下的玩家，并将玩家设为目标
+                    attackTarget = player.transform;
+                    switchCounter = 0;
+                    isTracing = false;
+                }
             }
         }
         else {
@@ -224,8 +251,14 @@ public class Enemy extends ElementObj {
                 int dis = (int)(ePos.x - attackTarget.getX());
 
                 // 丢失目标
+
                 if (Math.abs(dis) > sightRange) {
                     attackTarget = null;
+                    if (Math.abs(dis) < reachRange) {
+                        isRunning = true;
+                        isTracing = true;
+                        this.facing = dis < 0 ? Direction.RIGHT : Direction.LEFT;
+                    }
                 }
                 else {
                     boolean isOnLeft = dis > 0;
@@ -254,7 +287,7 @@ public class Enemy extends ElementObj {
         int x = (int)transform.getX() + (this.facing == Direction.LEFT ? -100 : 100);
         int y = (int)transform.getY() - 40;
         Bullet b =(Bullet) new Bullet().create("x:" + x + ",y:" + y + ",f:" + facing.name()+",by:ENEMY,speed:30");
-        ElementManager.getManager().addElement(b, ElementType.BULLET);
+        ElementManager.getManager().addElement(b, ElementType.E_BULLET);
         isAttacking = false;
     }
 }

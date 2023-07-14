@@ -6,6 +6,7 @@ import java.awt.*;
 
 public abstract class ComponentBase{
     protected ElementObj parent = null;
+    protected boolean active = true;
 
     public ComponentBase() {
         this("");
@@ -59,4 +60,13 @@ public abstract class ComponentBase{
 
     public void onCollision(ElementObj other) {
     }
+
+    public boolean isActive(){
+        return this.active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 }

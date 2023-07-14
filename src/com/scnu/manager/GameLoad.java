@@ -4,6 +4,7 @@ import com.scnu.anim.AnimationClip;
 import com.scnu.anim.SpriteImg;
 import com.scnu.element.ElementObj;
 import com.scnu.element.RootObj;
+import com.scnu.element.TextObj;
 import com.scnu.element.map.BarrierObj;
 import com.scnu.geometry.Vector2;
 import com.scnu.show.GameJFrame;
@@ -16,8 +17,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * 加载器，读取配置文件的工具类
@@ -27,6 +28,8 @@ import java.util.List;
 public class GameLoad {
     // 资源管理器
     private static final ElementManager em = ElementManager.getManager();
+    //UI集合
+    public static Map<String, ElementObj> uiMap = new HashMap<>();
     // 图片集合
     public static Map<String, SpriteImg> imgMap = new HashMap<>();
     // 动画集合
@@ -35,6 +38,7 @@ public class GameLoad {
     public static Map<String, Class<?>> objMap = new HashMap<>();
     // 碰撞检查集合
     public static Map<ElementType, List<ElementType>> colMap = new HashMap<>();
+
 
     //音乐
     private static Clip clip;
@@ -71,19 +75,29 @@ public class GameLoad {
             while (names.hasMoreElements()) {
                 String key = names.nextElement().toString();
                 String[] arrs = pro.getProperty(key).split(";");
-                if (key.equals("ENEMY")) {
-                    // 后续改为动态加载+对象池
-                    for (String arr : arrs) {
-                        ElementObj enemy = createElementByName("enemy", arr + "," + "left");
-                        em.addElement(enemy, ElementType.ENEMY);
-                        ElementManager.eleRoot.addChild(enemy);
-                    }
-                    continue;
+                switch (key) {
+                    case "ENEMY":
+                        for (String arr : arrs) {
+                            ElementObj enemy = createElementByName("enemy", arr + "," + "left");
+                            em.addElement(enemy, ElementType.ENEMY);
+                            ElementManager.eleRoot.addChild(enemy);
+                        }
+                        continue;
+                    case "HOSTAGE":
+                        for (String arr : arrs) {
+                            ElementObj hostage = createElementByName("hostage", arr);
+                            em.addElement(hostage, ElementType.HOSTAGE);
+                            ElementManager.eleRoot.addChild(hostage);
+                        }
+                        continue;
+                    case "BOSS":
+                        for (String arr : arrs) {
+                            ElementObj enemy = createElementByName("boss", arr);
+                            em.addElement(enemy, ElementType.BOSS);
+                            ElementManager.eleRoot.addChild(enemy);
+                        }
+                        continue;
                 }
-//                for (String arr : arrs) {
-//                    ElementObj element = new MapObj().create(key + "," + arr);
-//                    em.addElement(element, ElementType.MAP);
-//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,22 +105,22 @@ public class GameLoad {
         pro.clear();
 
         //创建地图边界
-//        int barrierWidth = 10;
-//        int offsetH = -40;
-//        int offsetW = -10;
-//        BarrierObj left  = new BarrierObj().setRect(
-//                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
-//        BarrierObj right = new BarrierObj().setRect(
-//                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
-//        BarrierObj up    = new BarrierObj().setRect(
-//                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
-//        BarrierObj down  = new BarrierObj().setRect(
-//                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
-//
-//        em.addElement(left,ElementType.MAP);
-//        em.addElement(right,ElementType.MAP);
-//        em.addElement(up,ElementType.MAP);
-//        em.addElement(down,ElementType.MAP);
+        int barrierWidth = 10;
+        int offsetH = -40;
+        int offsetW = -10;
+        BarrierObj left  = new BarrierObj().setRect(
+                new Rectangle(-barrierWidth,0, barrierWidth, GameJFrame.SIZE_H));
+        BarrierObj right = new BarrierObj().setRect(
+                new Rectangle(GameJFrame.SIZE_W + offsetW,0, barrierWidth, GameJFrame.SIZE_H));
+        BarrierObj up    = new BarrierObj().setRect(
+                new Rectangle(0,-barrierWidth, GameJFrame.SIZE_W, barrierWidth));
+        BarrierObj down  = new BarrierObj().setRect(
+                new Rectangle(0, GameJFrame.SIZE_H + offsetH, GameJFrame.SIZE_W, barrierWidth));
+
+        em.addElement(left,ElementType.MAP);
+        em.addElement(right,ElementType.MAP);
+        em.addElement(up,ElementType.MAP);
+        em.addElement(down,ElementType.MAP);
     }
 
     /**
@@ -247,13 +261,18 @@ public class GameLoad {
         }
     }
 
-    public static void loadEnemies(List<Vector2> posList) {
-//        Random ran = new Random();
+    public static void loadUI() {
+        TextObj health = new TextObj("微软雅黑", Font.BOLD, 20);
+        health.transform.setPos(new Vector2(10,30));
+        health.text = "Health: 10";
+        em.addElement(health, ElementType.UI);
+        uiMap.put("health", health);
 
-//        for (Vector2 p : posList) {
-//            ElementObj enemy = createElementByName("enemy", p.x+","+p.y+","+"up");
-//            em.addElement(enemy, ElementType.ENEMY);
-//        }
+        TextObj bulletNum = new TextObj("微软雅黑", Font.BOLD, 20);
+        bulletNum.transform.setPos(new Vector2(10,50));
+        bulletNum.text = "bullet num: ∞";
+        em.addElement(bulletNum, ElementType.UI);
+        uiMap.put("bulletNum", bulletNum);
     }
 
 
@@ -292,6 +311,11 @@ public class GameLoad {
         if (clip != null) {
             clip.setFramePosition(0); // 从音频的开头开始播放
             clip.loop(Clip.LOOP_CONTINUOUSLY); // 循环播放音频
+        }
+    }
+    public static void stopMusic() {
+        if (clip != null) {
+            clip.stop();
         }
     }
 }

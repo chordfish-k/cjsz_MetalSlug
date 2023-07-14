@@ -76,3 +76,13 @@ enemy_standR11=enemy_standR101;enemy_standR111;
 enemy_standR20=enemy_standR200;enemy_standR210;
 enemy_standR21=enemy_standR201;enemy_standR211;
 
+hostage_phase0=hostage0;hostage1;hostage2;
+hostage_phase1=hostage3;hostage4;hostage5;hostage6;hostage7;
+hostage_phase2=hostage5;hostage6;hostage7;|8
+hostage_phase3=hostage8;hostage9;hostage10;hostage11;hostage12;hostage13;hostage14;hostage15;hostage16;hostage17;hostage18;hostage18;hostage18;
+hostage_phase4=hostage31;hostage32;hostage33;hostage34;hostage35;hostage36;hostage37;
+
+boss=boss0;boss1;boss2;boss3;boss4;boss5;boss6;boss7;boss8;boss9;boss10;boss11;boss10;boss12;boss13;boss14;boss15;|8
+boss=boss0;boss1;boss2;boss3;boss4;boss5;boss6;boss7;boss8;boss9;boss10;boss11;boss10;boss12;boss13;boss14;boss15;|8
+
+boom=boom0;boom1;boom2;boom3;boom4;boom5;boom6;boom7;boom8;boom9;boom10;boom11;boom12;boom13;boom14;boom15;boom16;

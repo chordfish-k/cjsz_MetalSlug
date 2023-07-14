@@ -1,6 +1,7 @@
 package com.scnu.game;
 
 import com.scnu.controller.GameThread;
+import com.scnu.geometry.Vector2;
 import com.scnu.show.GameJFrame;
 
 /**
@@ -11,7 +12,7 @@ public class Game {
 
     public static Game getInstance() {
         if (game == null) {
-            return new Game();
+            game = new Game();
         }
         return game;
     }
@@ -24,6 +25,7 @@ public class Game {
     }
 
     private GameJFrame gameJFrame = null;
+    private Vector2 mapSize = Vector2.ZERO;
 
     public GameJFrame getGameJFrame() {
         return gameJFrame;
@@ -39,5 +41,19 @@ public class Game {
     public void finishGameRun() {
         ((GameThread)this.gameJFrame.getThread())
                 .finishGameRun();
+    }
+
+    public int getGameLevel() {
+        if (this.gameJFrame != null)
+            return ((GameThread)this.gameJFrame.getThread()).getLevelNum();
+        return 1;
+    }
+
+    public void setMapSize(Vector2 mapSize) {
+        this.mapSize = mapSize;
+    }
+
+    public Vector2 getMapSize() {
+        return mapSize;
     }
 }

@@ -1,14 +1,5 @@
-left=image/tank/play1/player1_left.png
-right=image/tank/play1/player1_right.png
-up=image/tank/play1/player1_up.png
-down=image/tank/play1/player1_down.png
-
-bot_left=image/tank/bot/bot_left.png
-bot_right=image/tank/bot/bot_right.png
-bot_up=image/tank/bot/bot_up.png
-bot_down=image/tank/bot/bot_down.png
-
-background=images/background/backimage1.gif
+background1=images/background/backimage1.gif
+background2=images/background/backimage2.gif
 
 attack000=images/plays/attack000.png
 attack001=images/plays/attack001.png
@@ -125,10 +116,10 @@ knife31=images/plays/knife31.png
 knife40=images/plays/knife40.png
 knife41=images/plays/knife41.png
 
-bullet00=images/bullet/bullet00.png
-bullet01=images/bullet/bullet01.png
-bullet10=images/bullet/bullet10.png
-bullet11=images/bullet/bullet11.png
+bullet00=images/bullet/bullet00.png|0.5,0.5
+bullet01=images/bullet/bullet01.png|0.5,0.5
+bullet10=images/bullet/bullet30.png|0.5,0.5
+bullet11=images/bullet/bullet31.png|0.5,0.5
 
 enemy_attackL000=images/enemy/L/enemy_attack000.png|1,1
 enemy_attackL001=images/enemy/L/enemy_attack001.png|1,1
@@ -360,5 +351,81 @@ enemy_standR201=images/enemy/R/enemy_stand201.png
 enemy_standR210=images/enemy/R/enemy_stand210.png
 enemy_standR211=images/enemy/R/enemy_stand211.png
 
+hostage0=images/hostage/oder0.png|1,1
+hostage1=images/hostage/oder1.png|1,1
+hostage2=images/hostage/oder2.png|1,1
 
+hostage3=images/hostage/oder3.png|1,1
+hostage4=images/hostage/oder4.png|1,1
+hostage5=images/hostage/oder5.png|1,1
+hostage6=images/hostage/oder6.png|1,1
+hostage7=images/hostage/oder7.png|1,1
 
+hostage8=images/hostage/oder8.png|1,1
+hostage9=images/hostage/oder9.png|1,1
+hostage10=images/hostage/oder10.png|1,1
+hostage11=images/hostage/oder11.png|1,1
+hostage12=images/hostage/oder12.png|1,1
+hostage13=images/hostage/oder13.png|1,1
+hostage14=images/hostage/oder14.png|1,1
+hostage15=images/hostage/oder15.png|1,1
+hostage16=images/hostage/oder16.png|1,1
+hostage17=images/hostage/oder17.png|1,1
+hostage18=images/hostage/oder18.png|1,1
+
+hostage19=images/hostage/oder19.png|1,1
+hostage20=images/hostage/oder20.png|1,1
+hostage21=images/hostage/oder21.png|1,1
+hostage22=images/hostage/oder22.png|1,1
+hostage23=images/hostage/oder23.png|1,1
+hostage24=images/hostage/oder24.png|1,1
+hostage25=images/hostage/oder25.png|1,1
+hostage26=images/hostage/oder26.png|1,1
+hostage27=images/hostage/oder27.png|1,1
+hostage28=images/hostage/oder28.png|1,1
+hostage29=images/hostage/oder29.png|1,1
+hostage30=images/hostage/oder30.png|1,1
+hostage31=images/hostage/oder31.png|1,1
+hostage32=images/hostage/oder32.png|1,1
+hostage33=images/hostage/oder33.png|1,1
+hostage34=images/hostage/oder34.png|1,1
+hostage35=images/hostage/oder35.png|1,1
+hostage36=images/hostage/oder36.png|1,1
+hostage37=images/hostage/oder37.png|1,1
+
+boss0=images/boss/D_boss (1).png|0.5,1
+boss1=images/boss/D_boss (2).png|0.5,1
+boss2=images/boss/D_boss (3).png|0.5,1
+boss3=images/boss/D_boss (4).png|0.5,1
+boss4=images/boss/D_boss (5).png|0.5,1
+boss5=images/boss/D_boss (6).png|0.5,1
+boss6=images/boss/D_boss (7).png|0.5,1
+boss7=images/boss/D_boss (8).png|0.5,1
+boss8=images/boss/D_boss (9).png|0.5,1
+boss9=images/boss/D_boss (10).png|0.5,1
+boss10=images/boss/D_boss (11).png|0.5,1
+boss11=images/boss/D_boss (12).png|0.5,1
+boss12=images/boss/D_boss (13).png|0.5,1
+boss13=images/boss/D_boss (14).png|0.5,1
+boss14=images/boss/D_boss (15).png|0.5,1
+boss15=images/boss/D_boss (16).png|0.5,1
+
+gift=images/bullet/gift2.png|0.5,0.5
+
+boom0=images/boom/bomb_bang0.png|0.5,1
+boom1=images/boom/bomb_bang1.png|0.5,1
+boom2=images/boom/bomb_bang2.png|0.5,1
+boom3=images/boom/bomb_bang3.png|0.5,1
+boom4=images/boom/bomb_bang4.png|0.5,1
+boom5=images/boom/bomb_bang5.png|0.5,1
+boom6=images/boom/bomb_bang6.png|0.5,1
+boom7=images/boom/bomb_bang7.png|0.5,1
+boom8=images/boom/bomb_bang8.png|0.5,1
+boom9=images/boom/bomb_bang9.png|0.5,1
+boom10=images/boom/bomb_bang10.png|0.5,1
+boom11=images/boom/bomb_bang11.png|0.5,1
+boom12=images/boom/bomb_bang12.png|0.5,1
+boom13=images/boom/bomb_bang13.png|0.5,1
+boom14=images/boom/bomb_bang14.png|0.5,1
+boom15=images/boom/bomb_bang15.png|0.5,1
+boom16=images/boom/bomb_bang16.png|0.5,1

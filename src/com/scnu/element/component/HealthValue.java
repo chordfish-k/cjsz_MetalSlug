@@ -66,7 +66,7 @@ public class HealthValue extends ComponentBase{
      * @param oldHealth 旧最大血量
      */
     public void onHealthChange(int health, int oldHealth) {
-        this.changeNum = oldHealth - health;
+        this.changeNum = health - oldHealth;
         if (onHealthChangeEvent != null) {
             onHealthChangeEvent.run();
         }
