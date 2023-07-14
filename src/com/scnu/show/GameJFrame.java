@@ -40,7 +40,7 @@ public class GameJFrame extends JFrame {
         this.setLocationRelativeTo(null); // 居中显示
         this.setResizable(false);//禁止修改窗体大小
         //设置图标
-        ImageIcon icon = new ImageIcon("images/logo/Metal Slug RELOAD 128.png");
+        ImageIcon icon = new ImageIcon("images/logo/Metal Slug RELOAD icon.png");
         this.setIconImage(icon.getImage());
     }
 
