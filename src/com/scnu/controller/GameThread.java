@@ -127,7 +127,6 @@ public class GameThread extends Thread {
 
         if (em.getElementsByType(ElementType.ENEMY).size() > 0 || em.getElementsByType(ElementType.BOSS).size() > 0) {
             JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "游戏结束，任务失败");
-            levelNum = 1;
         }
         else {
             if (levelNum < 2) {
@@ -135,7 +134,7 @@ public class GameThread extends Thread {
                 JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "进入下一关");
             }
             else {
-                JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "游戏结束，任务完成");
+                JOptionPane.showMessageDialog(Game.getInstance().getGameJFrame(), "游戏结束，任务成功");
                 levelNum = 1;
             }
         }
