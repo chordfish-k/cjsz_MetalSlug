@@ -74,7 +74,12 @@ public class GameThread extends Thread {
         GameLoad.loadRoot();
         GameLoad.loadBackground();
         GameLoad.LoadMap(this.levelNum);
-        GameLoad.loadMusic("music/reload.wav");
+        if (levelNum == 1){
+            GameLoad.loadMusic("music/reload.wav");
+        }
+        else if (levelNum == 2){
+            GameLoad.loadMusic("music/mass.wav");
+        }
         GameLoad.playMusic();
         GameLoad.loadPlayer();
 
